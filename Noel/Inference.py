@@ -1,122 +1,42 @@
-import argparse
-from fastsam import FastSAM, FastSAMPrompt 
-import ast
+import cv2
+import numpy as np
 import torch
-from PIL import Image
-from utils.tools import convert_box_xywh_to_xyxy
+import matplotlib.pyplot as plt
+from MobileSamModel.mobile_sam import sam_model_registry, SamAutomaticMaskGenerator, SamPredictor
 
+model_type = "vit_t"
+sam_checkpoint = "./MobileSamModel/weights/mobile_sam.pt"
 
-def parse_args():
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--model_path", type=str, default="./weights/FastSAM.pt", help="model"
-    )
-    parser.add_argument(
-        "--img_path", type=str, default="./images/dogs.jpg", help="path to image file"
-    )
-    parser.add_argument("--imgsz", type=int, default=1024, help="image size")
-    parser.add_argument(
-        "--iou",
-        type=float,
-        default=0.9,
-        help="iou threshold for filtering the annotations",
-    )
-    parser.add_argument(
-        "--text_prompt", type=str, default=None, help='use text prompt eg: "a dog"'
-    )
-    parser.add_argument(
-        "--conf", type=float, default=0.4, help="object confidence threshold"
-    )
-    parser.add_argument(
-        "--output", type=str, default="./output/", help="image save path"
-    )
-    parser.add_argument(
-        "--randomcolor", type=bool, default=True, help="mask random color"
-    )
-    parser.add_argument(
-        "--point_prompt", type=str, default="[[0,0]]", help="[[x1,y1],[x2,y2]]"
-    )
-    parser.add_argument(
-        "--point_label",
-        type=str,
-        default="[0]",
-        help="[1,0] 0:background, 1:foreground",
-    )
-    parser.add_argument("--box_prompt", type=str, default="[[0,0,0,0]]", help="[[x,y,w,h],[x2,y2,w2,h2]] support multiple boxes")
-    parser.add_argument(
-        "--better_quality",
-        type=str,
-        default=False,
-        help="better quality using morphologyEx",
-    )
-    device = torch.device(
-        "cuda"
-        if torch.cuda.is_available()
-        else "mps"
-        if torch.backends.mps.is_available()
-        else "cpu"
-    )
-    parser.add_argument(
-        "--device", type=str, default=device, help="cuda:[0,1,2,3,4] or cpu"
-    )
-    parser.add_argument(
-        "--retina",
-        type=bool,
-        default=True,
-        help="draw high-resolution segmentation masks",
-    )
-    parser.add_argument(
-        "--withContours", type=bool, default=False, help="draw the edges of the masks"
-    )
-    return parser.parse_args()
+device = "cuda" if torch.cuda.is_available() else "cpu"
 
+mobile_sam = sam_model_registry[model_type](checkpoint=sam_checkpoint)
+mobile_sam.to(device=device)
+mobile_sam.eval()
 
-def main(args):
-    # load model
-    model = FastSAM(args.model_path)
-    args.point_prompt = ast.literal_eval(args.point_prompt)
-    args.box_prompt = convert_box_xywh_to_xyxy(ast.literal_eval(args.box_prompt))
-    args.point_label = ast.literal_eval(args.point_label)
-    input = Image.open(args.img_path)
-    input = input.convert("RGB")
-    everything_results = model(
-        input,
-        device=args.device,
-        retina_masks=args.retina,
-        imgsz=args.imgsz,
-        conf=args.conf,
-        iou=args.iou    
-        )
-    bboxes = None
-    points = None
-    point_label = None
-    prompt_process = FastSAMPrompt(input, everything_results, device=args.device)
-    if args.box_prompt[0][2] != 0 and args.box_prompt[0][3] != 0:
-            ann = prompt_process.box_prompt(bboxes=args.box_prompt)
-            bboxes = args.box_prompt
-    elif args.text_prompt != None:
-        ann = prompt_process.text_prompt(text=args.text_prompt)
-    elif args.point_prompt[0] != [0, 0]:
-        ann = prompt_process.point_prompt(
-            points=args.point_prompt, pointlabel=args.point_label
-        )
-        points = args.point_prompt
-        point_label = args.point_label
-    else:
-        ann = prompt_process.everything_prompt()
-    prompt_process.plot(
-        annotations=ann,
-        output_path=args.output+args.img_path.split("/")[-1],
-        bboxes = bboxes,
-        points = points,
-        point_label = point_label,
-        withContours=args.withContours,
-        better_quality=args.better_quality,
-    )
+image = cv2.imread('./MobileSamModel/notebooks/picture2.jpg')
+image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
 
+predictor = SamPredictor(mobile_sam)
+predictor.set_image(image)
 
+input_point = np.array([[250, 375]])
+input_label = np.array([1])
 
+ort_inputs = {
+    "image_embeddings": predictor.get_image_embedding().cpu().numpy(),
+    "point_coords": np.concatenate([input_point, np.array([[0.0, 0.0]])], axis=0)[None, :, :],
+    "point_labels": np.concatenate([input_label, np.array([-1])], axis=0)[None, :].astype(np.float32),
+    "mask_input": np.zeros((1, 1, 256, 256), dtype=np.float32),
+    "has_mask_input": np.zeros(1, dtype=np.float32),
+    "orig_im_size": np.array(image.shape[:2], dtype=np.float32)
+}
+masks, _, _ = predictor.predict(ort_inputs)
 
-if __name__ == "__main__":
-    args = parse_args()
-    main(args)
+print(masks.shape)
+
+# plt.figure(figsize=(10,10))
+# plt.imshow(image)
+# # show_mask(masks, plt.gca())
+# # show_points(input_point, input_label, plt.gca())
+# plt.axis('off')
+# plt.show() 
