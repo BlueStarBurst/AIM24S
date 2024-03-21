@@ -7,7 +7,7 @@
 import numpy as np
 import torch
 
-from mobile_sam.modeling import Sam
+from MobileSamModel.mobile_sam.modeling import Sam
 
 from typing import Optional, Tuple
 
