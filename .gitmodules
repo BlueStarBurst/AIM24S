@@ -3,4 +3,4 @@
 	url = https://github.com/ChaoningZhang/MobileSAM.git
 [submodule "Bryant/StreamDiffusion"]
 	path = Bryant/StreamDiffusion
-	url = https://github.com/cumulo-autumn/StreamDiffusion.git
+	url = https://github.com/BlueStarBurst/StreamDiffusion.git
