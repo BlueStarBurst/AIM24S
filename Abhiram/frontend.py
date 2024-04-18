@@ -1,0 +1,1 @@
+#script to run the webcam and send data to the server
