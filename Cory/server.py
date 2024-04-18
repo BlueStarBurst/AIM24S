@@ -2,13 +2,47 @@ import socket
 import cv2
 import struct
 import numpy as np
+import threading
+from mobile_sam import sam_model_registry, SamAutomaticMaskGenerator, SamPredictor
+import torch
+import os
+
+textPrompt = "Normal"
+
+# MobileSAM initialization
+model_type = "vit_t"
+sam_checkpoint = "./MobileSAM/weights/mobile_sam.pt"
+
+device = "cuda" if torch.cuda.is_available() else "cpu"
+
+mobile_sam = sam_model_registry[model_type](checkpoint=sam_checkpoint)
+mobile_sam.to(device=device)
+mobile_sam.eval()
+
+abspath = os.path.abspath(__file__) # sets directory of inference.py
+
+predictor = SamPredictor(mobile_sam)
 
 def modify_frame(frame):
-    # Example modification: Convert frame to grayscale
-    modified_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # ndarray-ify
+    predictor.set_image(frame)
+    masks, _, _ = predictor.predict()
+    # save mask
+    # print(masks)
+    # turn bool to int
+    masks = masks.astype(int)
+    # turn 0 and 1 to 0 and 255
+    masks = masks * 255
+    modified_frame = masks[0]
     return modified_frame
 
-def send_receive_webcam_frames(connection):
+def send_receive_webcam_frames():
+    webcamSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    webcamServerAddress = ('127.0.0.1', 12345)
+    webcamSocket.bind(webcamServerAddress)
+    webcamSocket.listen(1)
+    print("Server is listening...")
+    connection, client_address = webcamSocket.accept()
 
     while True:
         # Receive the size of the frame data from the client
@@ -49,21 +83,43 @@ def send_receive_webcam_frames(connection):
         connection.sendall(modified_frame_data)
 
     connection.close()
+    webcamSocket.close()
 
-def main():
+def receiveText():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_address = ('127.0.0.1', 12345)
+    server_address = ('127.0.0.1', 54321)
 
     server_socket.bind(server_address)
     server_socket.listen(1)
 
-    print("Server is listening...")
-
     connection, client_address = server_socket.accept()
 
-    send_receive_webcam_frames(connection)
+    global textPrompt
+    text = ""
+    while text != "q":
+        # Receive text from client
+        text = connection.recv(1024).decode()
 
+        print("Received text from client:", text)
+
+        textPrompt = str(text)
+
+    connection.close()
     server_socket.close()
+
+def main():
+    webcamThread = threading.Thread(target=send_receive_webcam_frames)
+    textThread = threading.Thread(target=receiveText)
+
+    # Starting the threads
+    textThread.start()
+    webcamThread.start()
+
+    # Waiting for both threads to finish
+    webcamThread.join()
+    textThread.join()
+
+    print("All functions have finished executing")
 
 if __name__ == "__main__":
     main()

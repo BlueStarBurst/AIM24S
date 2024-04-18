@@ -2,6 +2,7 @@ import socket
 import cv2
 import struct
 import numpy as np
+import threading
 
 def display_frames(original_frame, modified_frame):
     cv2.imshow("Original Frame", original_frame)
@@ -11,11 +12,10 @@ def display_frames(original_frame, modified_frame):
         return False
     return True
 
-def main():
-    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_address = ('127.0.0.1', 12345)
-
-    client_socket.connect(server_address)
+def sendAndReceiveFrames():
+    webcamSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    webcamServerAddress = ('127.0.0.1', 12345)
+    webcamSocket.connect(webcamServerAddress)
 
     cap = cv2.VideoCapture(0)
 
@@ -35,13 +35,13 @@ def main():
         size_data = struct.pack("I", frame_size)
 
         # Send the size of the frame data to the server
-        client_socket.sendall(size_data)
+        webcamSocket.sendall(size_data)
 
         # Send the frame data to the server
-        client_socket.sendall(frame_data)
+        webcamSocket.sendall(frame_data)
 
         # Receive the size of the modified frame data from the server
-        size_data = client_socket.recv(4)
+        size_data = webcamSocket.recv(4)
         if not size_data:
             break
 
@@ -51,7 +51,7 @@ def main():
         # Receive the modified frame data from the server
         frame_data = b''
         while len(frame_data) < frame_size:
-            data = client_socket.recv(frame_size - len(frame_data))
+            data = webcamSocket.recv(frame_size - len(frame_data))
             if not data:
                 break
             frame_data += data
@@ -64,8 +64,37 @@ def main():
         if not should_continue:
             break
 
-    client_socket.close()
+    webcamSocket.close()
     cv2.destroyAllWindows()
+
+def sendText():
+    textSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    textServerAddress = ('127.0.0.1', 54321)
+    textSocket.connect(textServerAddress)
+
+    text = ""
+
+    while text != "q":
+        text = input("Enter text to send to server: ")
+
+        # Send text to server
+        textSocket.sendall(text.encode())
+
+    textSocket.close()
+
+def main():
+    webcamThread = threading.Thread(target=sendAndReceiveFrames)
+    textThread = threading.Thread(target=sendText)
+
+    # Starting the threads
+    textThread.start()
+    webcamThread.start()
+
+    # Waiting for both threads to finish
+    webcamThread.join()
+    textThread.join()
+
+    print("All functions have finished executing")
 
 if __name__ == "__main__":
     main()
