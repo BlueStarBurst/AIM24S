@@ -75,6 +75,8 @@ def sendAndReceiveFrames():
 
         # Send the frame data to the server
         webcamSocket.sendall(frame_data)
+        
+        process_frame(frame)
 
         # Receive the size of the modified frame data from the server
         size_data = webcamSocket.recv(4)
