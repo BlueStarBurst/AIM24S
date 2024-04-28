@@ -115,6 +115,7 @@ def sendText():
 
     while text != "q":
         text = input("Enter text to send to server: ")
+        text = text.replace("\n", "")
 
         # Send text to server
         textSocket.sendall(text.encode() + b'\n' + json.dumps(annotations).encode())
