@@ -24,7 +24,8 @@ def process_frame(frame):
         # Get the first result object
         result = results[0]
         
-        annotations = result.pandas().xyxy[0]
+        annotations = result.boxes
+        print(annotations)
 
         # Get annotated image with bounding boxes
         annotated_image = result.plot()
