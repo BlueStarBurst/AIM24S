@@ -13,13 +13,15 @@ textPrompt = "Normal"
 model_type = "vit_t"
 sam_checkpoint = "./MobileSAM/weights/mobile_sam.pt"
 
+abspath = os.path.abspath(__file__) # sets directory of inference.py
+
 device = "cuda" if torch.cuda.is_available() else "cpu"
 
 mobile_sam = sam_model_registry[model_type](checkpoint=sam_checkpoint)
 mobile_sam.to(device=device)
 mobile_sam.eval()
 
-abspath = os.path.abspath(__file__) # sets directory of inference.py
+stop = False
 
 predictor = SamPredictor(mobile_sam)
 
@@ -113,6 +115,10 @@ def receiveText():
 def main():
     webcamThread = threading.Thread(target=send_receive_webcam_frames)
     textThread = threading.Thread(target=receiveText)
+    
+    # make it daemon so it closes when main thread closes
+    webcamThread.daemon = True
+    textThread.daemon = True
 
     # Starting the threads
     textThread.start()
