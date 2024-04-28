@@ -2,19 +2,12 @@ import cv2
 from PIL import Image
 import numpy as np
 from ultralytics import YOLO
-import os
 
 # Load the YOLO model
 model = YOLO('yolov8n.pt')
 
-# Create a directory to save the cropped images
-save_dir = 'cropped_images'
-os.makedirs(save_dir, exist_ok=True)
-
 # Function to process each frame from the webcam
-def process_frame(frame, frame_count):
-    global save_dir
-    
+def process_frame(frame):
     # Convert frame from BGR to RGB
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
@@ -34,14 +27,6 @@ def process_frame(frame, frame_count):
 
         # Display the frame with bounding boxes
         cv2.imshow('YOLO Object Detection', annotated_image_bgr)
-
-        # Save cropped images every 50 frames
-        if frame_count % 50 == 0:
-            for i, box in enumerate(result.boxes.xyxy):
-                x1, y1, x2, y2 = map(int, box)
-                cropped_img = frame[y1:y2, x1:x2]
-                cv2.imwrite(os.path.join(save_dir, f'cropped_{frame_count}_{i}.jpg'), cropped_img)
-
     else:
         # Display the original frame if no results found
         cv2.imshow('YOLO Object Detection', frame)
@@ -54,8 +39,6 @@ if not cap.isOpened():
     print("Error: Failed to open webcam.")
     exit()
 
-frame_count = 0
-
 # Process frames from the webcam
 while True:
     # Capture frame-by-frame
@@ -67,9 +50,7 @@ while True:
         break
 
     # Process the frame
-    process_frame(frame, frame_count)
-
-    frame_count += 1
+    process_frame(frame)
 
     # Break the loop if 'q' is pressed
     if cv2.waitKey(1) & 0xFF == ord('q'):

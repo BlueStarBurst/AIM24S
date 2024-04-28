@@ -23,6 +23,9 @@ abspath = os.path.abspath(__file__) # sets directory of inference.py
 
 predictor = SamPredictor(mobile_sam)
 
+def stream_diffusion(image, mask):
+    return image
+
 def modify_frame(frame):
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # ndarray-ify
     predictor.set_image(frame)
