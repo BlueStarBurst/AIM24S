@@ -3,50 +3,52 @@ import cv2
 import struct
 import numpy as np
 import threading
-from mobile_sam import sam_model_registry, SamAutomaticMaskGenerator, SamPredictor
-import torch
-import os
+import json
 
 textPrompt = "Normal"
 
-# MobileSAM initialization
-model_type = "vit_t"
-sam_checkpoint = "./MobileSAM/weights/mobile_sam.pt"
+# Function to handle YOLO annotations
+def handle_annotations(annotations):
+    # Process YOLO annotations here
+    print("Received YOLO annotations:", annotations)
 
-abspath = os.path.abspath(__file__) # sets directory of inference.py
+# Function to handle user input
+def handle_user_input(user_input):
+    global textPrompt
+    # Check if the user input is tagged as text or annotation
+    if user_input.startswith("T:"):
+        # It's user text input
+        text = user_input[2:]  # Remove the "T:" prefix
+        print("Received text from client:", text)
+        textPrompt = str(text)
+    else:
+        # It's YOLO annotations
+        annotations = json.loads(user_input)
+        handle_annotations(annotations)
 
-device = "cuda" if torch.cuda.is_available() else "cpu"
+def receive_data(client_socket):
+    data = b""
+    while True:
+        packet = client_socket.recv(1024)
+        if not packet:
+            break
+        data += packet
+    return data
 
-mobile_sam = sam_model_registry[model_type](checkpoint=sam_checkpoint)
-mobile_sam.to(device=device)
-mobile_sam.eval()
-
-stop = False
-
-predictor = SamPredictor(mobile_sam)
-
-def stream_diffusion(image, mask):
-    return image
-
-def modify_frame(frame):
-    frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # ndarray-ify
-    predictor.set_image(frame)
-    masks, _, _ = predictor.predict()
-    # save mask
-    # print(masks)
-    # turn bool to int
-    masks = masks.astype(int)
-    # turn 0 and 1 to 0 and 255
-    masks = masks * 255
-    modified_frame = masks[0]
-    return modified_frame
+def receiveText(client_socket):
+    while True:
+        data = client_socket.recv(1024)
+        if not data:
+            break
+        user_input = data.decode()
+        handle_user_input(user_input)
 
 def send_receive_webcam_frames():
     webcamSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     webcamServerAddress = ('127.0.0.1', 12345)
     webcamSocket.bind(webcamServerAddress)
     webcamSocket.listen(1)
-    print("Server is listening...")
+    print("Server is listening for webcam frames...")
     connection, client_address = webcamSocket.accept()
 
     while True:
@@ -59,18 +61,11 @@ def send_receive_webcam_frames():
         frame_size = struct.unpack("I", size_data)[0]
 
         # Receive the frame data from the client
-        frame_data = b''
-        while len(frame_data) < frame_size:
-            data = connection.recv(frame_size - len(frame_data))
-            if not data:
-                break
-            frame_data += data
-
-        # Convert frame data to numpy array
+        frame_data = receive_data(connection)
         frame = cv2.imdecode(np.frombuffer(frame_data, dtype=np.uint8), cv2.IMREAD_COLOR)
 
-        # Modify the frame
-        modified_frame = modify_frame(frame)
+        # Dummy modification for demonstration
+        modified_frame = cv2.flip(frame, 1)
 
         # Convert modified frame to JPEG format
         _, modified_frame_data = cv2.imencode('.jpg', modified_frame)
@@ -90,45 +85,22 @@ def send_receive_webcam_frames():
     connection.close()
     webcamSocket.close()
 
-def receiveText():
-    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_address = ('127.0.0.1', 54321)
-
-    server_socket.bind(server_address)
-    server_socket.listen(1)
-
-    connection, client_address = server_socket.accept()
-
-    global textPrompt
-    text = ""
-    while text != "q":
-        # Receive text from client
-        text = connection.recv(1024).decode()
-
-        print("Received text from client:", text)
-
-        textPrompt = str(text)
-
-    connection.close()
-    server_socket.close()
-
 def main():
+    textSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    textServerAddress = ('127.0.0.1', 54321)
+    textSocket.bind(textServerAddress)
+    textSocket.listen(1)
+    print("Server is listening for text input...")
+
     webcamThread = threading.Thread(target=send_receive_webcam_frames)
-    textThread = threading.Thread(target=receiveText)
-    
-    # make it daemon so it closes when main thread closes
-    webcamThread.daemon = True
-    textThread.daemon = True
 
-    # Starting the threads
-    textThread.start()
-    webcamThread.start()
+    while True:
+        client_socket, client_address = textSocket.accept()
+        print("Received connection from:", client_address)
+        textThread = threading.Thread(target=receiveText, args=(client_socket,))
+        textThread.start()
 
-    # Waiting for both threads to finish
-    webcamThread.join()
-    textThread.join()
-
-    print("All functions have finished executing")
+    textSocket.close()
 
 if __name__ == "__main__":
     main()

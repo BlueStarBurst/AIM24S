@@ -5,6 +5,7 @@ import numpy as np
 import threading
 import json
 from ultralytics import YOLO
+import time
 
 # Load the YOLO model
 model = YOLO('yolov8n.pt')
@@ -40,6 +41,17 @@ def process_frame(frame):
         cv2.imshow('YOLO Object Detection', frame)
         
         annotations = {}
+
+def send_annotations():
+    annotationSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    annotationServerAddress = ('127.0.0.1', 54321)  # Using the same port as user input
+    annotationSocket.connect(annotationServerAddress)
+
+    while True:
+        # Send YOLO annotations to server
+        annotationSocket.sendall(json.dumps(annotations).encode())
+        # Add a small delay to ensure separation of messages
+        time.sleep(0.1)
 
 def display_frames(original_frame, modified_frame):
     cv2.imshow("Original Frame", original_frame)
@@ -116,22 +128,27 @@ def sendText():
     while text != "q":
         text = input("Enter text to send to server: ")
 
+        # Add a special character at the beginning to indicate it's not an annotation
+        text_with_flag = "T:" + text
         # Send text to server
-        textSocket.sendall(text.encode() + b'\n' + json.dumps(annotations).encode())
+        textSocket.sendall(text_with_flag.encode())
 
     textSocket.close()
 
 def main():
     webcamThread = threading.Thread(target=sendAndReceiveFrames)
     textThread = threading.Thread(target=sendText)
+    annotationThread = threading.Thread(target=send_annotations)
 
     # Starting the threads
     textThread.start()
     webcamThread.start()
+    annotationThread.start()
 
     # Waiting for both threads to finish
     webcamThread.join()
     textThread.join()
+    annotationThread.join()
 
     print("All functions have finished executing")
 
