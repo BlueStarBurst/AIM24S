@@ -12,6 +12,7 @@ model = YOLO('yolov8n.pt')
 
 annotations = {}
 
+
 def process_frame(frame):
     global annotations
     # Convert frame from BGR to RGB
@@ -24,7 +25,7 @@ def process_frame(frame):
     if results:
         # Get the first result object
         result = results[0]
-        
+
         annotations = result.boxes
         print(annotations)
 
@@ -32,19 +33,22 @@ def process_frame(frame):
         annotated_image = result.plot()
 
         # Convert annotated image from numpy array to BGR format
-        annotated_image_bgr = cv2.cvtColor(np.array(annotated_image), cv2.COLOR_RGB2BGR)
+        annotated_image_bgr = cv2.cvtColor(
+            np.array(annotated_image), cv2.COLOR_RGB2BGR)
 
         # Display the frame with bounding boxes
         cv2.imshow('YOLO Object Detection', annotated_image_bgr)
     else:
         # Display the original frame if no results found
         cv2.imshow('YOLO Object Detection', frame)
-        
+
         annotations = {}
+
 
 def send_annotations():
     annotationSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    annotationServerAddress = ('127.0.0.1', 54321)  # Using the same port as user input
+    # Using the same port as user input
+    annotationServerAddress = ('127.0.0.1', 54321)
     annotationSocket.connect(annotationServerAddress)
 
     while True:
@@ -53,6 +57,7 @@ def send_annotations():
         # Add a small delay to ensure separation of messages
         time.sleep(0.1)
 
+
 def display_frames(original_frame, modified_frame):
     cv2.imshow("Original Frame", original_frame)
     cv2.imshow("Modified Frame", modified_frame)
@@ -60,6 +65,7 @@ def display_frames(original_frame, modified_frame):
     if key == ord('q'):
         return False
     return True
+
 
 def sendAndReceiveFrames():
     webcamSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -88,7 +94,7 @@ def sendAndReceiveFrames():
 
         # Send the frame data to the server
         webcamSocket.sendall(frame_data)
-        
+
         process_frame(frame)
 
         # Receive the size of the modified frame data from the server
@@ -108,7 +114,8 @@ def sendAndReceiveFrames():
             frame_data += data
 
         # Convert frame data to numpy array
-        modified_frame = cv2.imdecode(np.frombuffer(frame_data, dtype=np.uint8), cv2.IMREAD_COLOR)
+        modified_frame = cv2.imdecode(np.frombuffer(
+            frame_data, dtype=np.uint8), cv2.IMREAD_COLOR)
 
         # Display both original and modified frames
         should_continue = display_frames(frame, modified_frame)
@@ -117,6 +124,7 @@ def sendAndReceiveFrames():
 
     webcamSocket.close()
     cv2.destroyAllWindows()
+
 
 def sendText():
     textSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -136,6 +144,7 @@ def sendText():
 
     textSocket.close()
 
+
 def main():
     webcamThread = threading.Thread(target=sendAndReceiveFrames)
     textThread = threading.Thread(target=sendText)
@@ -152,6 +161,7 @@ def main():
     annotationThread.join()
 
     print("All functions have finished executing")
+
 
 if __name__ == "__main__":
     main()

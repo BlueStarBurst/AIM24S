@@ -9,7 +9,8 @@ from ultralytics import YOLO
 # Load the YOLO model
 model = YOLO('yolov8n.pt')
 
-annotations = {}
+annotations = []
+stop = False
 
 def process_frame(frame):
     global annotations
@@ -24,8 +25,11 @@ def process_frame(frame):
         # Get the first result object
         result = results[0]
         
-        annotations = result.boxes
+        annotations = result.boxes.xyxy.tolist()
+        
+        print("\n\n\n")
         print(annotations)
+        print("\n\n\n")
 
         # Get annotated image with bounding boxes
         annotated_image = result.plot()
@@ -102,37 +106,59 @@ def sendAndReceiveFrames():
         should_continue = display_frames(frame, modified_frame)
         if not should_continue:
             break
+        
+        if stop:
+            break
 
     webcamSocket.close()
     cv2.destroyAllWindows()
 
+textPrompt = "prompt"
+
 def sendText():
+    global textPrompt
+    global annotations
     textSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     textServerAddress = ('127.0.0.1', 54321)
     textSocket.connect(textServerAddress)
+    
+    print(annotations)
 
-    text = ""
-
-    while text != "q":
-        text = input("Enter text to send to server: ")
-        text = text.replace("\n", "")
+    while True:
+        text = textPrompt.replace("\n", "")
 
         # Send text to server
-        textSocket.sendall(text.encode() + b'\n' + json.dumps(annotations).encode())
+        textSocket.sendall((text + "<split>" + json.dumps(annotations) + "<end>").encode())
+        
+        if stop:
+            break
 
     textSocket.close()
+    
+def changePrompt():
+    global textPrompt
+    global stop
+    while True:
+        textPrompt = input("Enter text to send to server: ")
+        if textPrompt == "q":
+            stop = True
+            break
+        
 
 def main():
     webcamThread = threading.Thread(target=sendAndReceiveFrames)
     textThread = threading.Thread(target=sendText)
+    changePromptThread = threading.Thread(target=changePrompt)
 
     # Starting the threads
     textThread.start()
     webcamThread.start()
+    changePromptThread.start()
 
     # Waiting for both threads to finish
     webcamThread.join()
     textThread.join()
+    changePromptThread.join()
 
     print("All functions have finished executing")
 

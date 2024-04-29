@@ -6,6 +6,7 @@ import threading
 from mobile_sam import sam_model_registry, SamAutomaticMaskGenerator, SamPredictor
 import torch
 import os
+import json
 
 textPrompt = "Normal"
 
@@ -100,14 +101,39 @@ def receiveText():
     connection, client_address = server_socket.accept()
 
     global textPrompt
+    tempData = ""
     text = ""
+    annotations = []
+    nextTempData = ""
     while text != "q":
-        # Receive text from client
-        text = connection.recv(1024).decode()
-
-        print("Received text from client:", text)
-
-        textPrompt = str(text)
+        try:
+            # Receive text from client
+            tempData += connection.recv(1024*20).decode()
+            
+            
+            newLineIndex = tempData.find("<end>")
+            
+            if newLineIndex == -1:
+                continue
+            else:
+                tempData = tempData[:newLineIndex]
+                nextTempData = tempData[newLineIndex+5:]
+            
+            print("Received data from client:", tempData)
+            
+            newLineIndex = tempData.find("<split>")
+            
+            text = tempData[:newLineIndex]
+            annotations = tempData[newLineIndex+7:]
+            print("Received text from client:", text)
+            print("Received annotations from client:", annotations)
+            
+            # json annotations
+            annotations = json.loads(annotations)
+            
+            tempData = nextTempData
+        except:
+            print("Error receiving data from client")
 
     connection.close()
     server_socket.close()
@@ -115,8 +141,7 @@ def receiveText():
 def main():
     webcamThread = threading.Thread(target=send_receive_webcam_frames)
     textThread = threading.Thread(target=receiveText)
-    
-    # make it daemon so it closes when main thread closes
+
     webcamThread.daemon = True
     textThread.daemon = True
 
