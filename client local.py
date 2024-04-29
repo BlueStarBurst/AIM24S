@@ -1,5 +1,6 @@
 import socket
 import cv2
+import sys
 import struct
 import numpy as np
 import threading
@@ -8,6 +9,8 @@ from ultralytics import YOLO
 
 # Load the YOLO model
 model = YOLO('yolov8n.pt')
+
+address = '127.0.0.1'
 
 annotations = []
 classes = []
@@ -61,7 +64,7 @@ def display_frames(original_frame, modified_frame):
 
 def sendAndReceiveFrames():
     webcamSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    webcamServerAddress = ('127.0.0.1', 12345)
+    webcamServerAddress = (address, 12345)
     webcamSocket.connect(webcamServerAddress)
 
     cap = cv2.VideoCapture(0)
@@ -133,7 +136,7 @@ def sendText():
     global textPrompt
     global annotations
     textSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    textServerAddress = ('127.0.0.1', 54321)
+    textServerAddress = (address, 54321)
     textSocket.connect(textServerAddress)
     
     print(annotations)
@@ -166,6 +169,15 @@ def changePrompt():
         
 
 def main():
+    
+    args = sys.argv
+    
+    # get the address from the args
+    global address
+    if len(args) > 1:
+        address = args[1]
+    
+    
     webcamThread = threading.Thread(target=sendAndReceiveFrames)
     textThread = threading.Thread(target=sendText)
     changePromptThread = threading.Thread(target=changePrompt)
