@@ -134,6 +134,7 @@ def receiveText():
             tempData = nextTempData
         except:
             print("Error receiving data from client")
+            break
 
     connection.close()
     server_socket.close()

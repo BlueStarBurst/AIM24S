@@ -65,6 +65,14 @@ def sendAndReceiveFrames():
         ret, frame = cap.read()
         if not ret:
             break
+        
+        w = frame.shape[1]
+        h = frame.shape[0]
+        s = min(w, h)
+        # crop width to center s 
+        frame = frame[(h-s)//2:(h+s)//2, (w-s)//2:(w+s)//2] 
+        # resize to 512x512
+        frame = cv2.resize(frame, (512, 512))
 
         # Convert frame to JPEG format
         _, frame_data = cv2.imencode('.jpg', frame)
