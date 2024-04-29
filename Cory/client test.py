@@ -10,15 +10,18 @@ from ultralytics import YOLO
 model = YOLO('yolov8n.pt')
 
 annotations = []
+classes = []
+
 stop = False
 
 def process_frame(frame):
     global annotations
+    global classes
     # Convert frame from BGR to RGB
     frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
     # Perform object detection on the frame
-    results = model(frame_rgb)
+    results = model(frame_rgb, verbose=False)
 
     # Ensure that results is not empty
     if results:
@@ -26,10 +29,13 @@ def process_frame(frame):
         result = results[0]
         
         annotations = result.boxes.xyxy.tolist()
+        classes = [model.names[int(i)] for i in result.boxes.cls]
         
-        print("\n\n\n")
-        print(annotations)
-        print("\n\n\n")
+        # print("\n\n\n")
+        # print("ANNOTATIONS",annotations)
+        # print("\n\n\n")
+        # print("CLASSES",classes)
+        # print("\n\n\n")
 
         # Get annotated image with bounding boxes
         annotated_image = result.plot()
@@ -135,8 +141,14 @@ def sendText():
     while True:
         text = textPrompt.replace("\n", "")
 
+        annotation = []
+        if len(annotations) > 0:
+            annotation = annotations[0]
+
+        # print("Sending annotation", json.dumps(annotation))
+
         # Send text to server
-        textSocket.sendall((text + "<split>" + json.dumps(annotations) + "<end>").encode())
+        textSocket.sendall((text + "<split>" + json.dumps(annotation) + "<end>").encode())
         
         if stop:
             break

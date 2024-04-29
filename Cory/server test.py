@@ -26,13 +26,22 @@ stop = False
 
 predictor = SamPredictor(mobile_sam)
 
+annotation = []
+
 def stream_diffusion(image, mask):
     return image
 
 def modify_frame(frame):
+    global annotation
+    # print("Annotation:", annotation)
     frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB) # ndarray-ify
     predictor.set_image(frame)
-    masks, _, _ = predictor.predict()
+    
+    if len(annotation) > 0:
+        masks, _, _ = predictor.predict(box=annotation)
+    else:
+        masks, _, _ = predictor.predict()
+        
     # save mask
     # print(masks)
     # turn bool to int
@@ -101,6 +110,7 @@ def receiveText():
     connection, client_address = server_socket.accept()
 
     global textPrompt
+    global annotation
     tempData = ""
     text = ""
     annotations = []
@@ -119,21 +129,33 @@ def receiveText():
                 tempData = tempData[:newLineIndex]
                 nextTempData = tempData[newLineIndex+5:]
             
-            print("Received data from client:", tempData)
+            # print("Received data from client:", tempData)
             
             newLineIndex = tempData.find("<split>")
             
             text = tempData[:newLineIndex]
             annotations = tempData[newLineIndex+7:]
-            print("Received text from client:", text)
-            print("Received annotations from client:", annotations)
+            # print("Received text from client:", text)
+            # print("Received annotations from client:", annotations)
             
             # json annotations
-            annotations = json.loads(annotations)
+            
+            floatArray = annotations.replace("[", "").replace("]", "").replace(" ", "").split(",")
+            
+            fake = False
+            if len(floatArray) == 4:
+                for i in range(len(floatArray)):
+                    if floatArray[i] == "":
+                        fake = True
+                        break
+                    floatArray[i] = float(floatArray[i])
+                # print("ARRRR:",floatArray)
+                if not fake:
+                    annotation = np.array(floatArray)
             
             tempData = nextTempData
-        except:
-            print("Error receiving data from client")
+        except Exception as e:
+            print("Error receiving data from client", e)
             break
 
     connection.close()
