@@ -61,6 +61,7 @@ def send_receive_webcam_frames():
     webcamSocket.listen(1)
     print("Server is listening...")
     connection, client_address = webcamSocket.accept()
+    print("Client connected")
 
     while True:
         # Receive the size of the frame data from the client
