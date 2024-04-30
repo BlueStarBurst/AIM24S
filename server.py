@@ -64,6 +64,9 @@ def send_receive_webcam_frames():
     print("Client connected")
 
     while True:
+        
+        start_time = cv2.getTickCount()
+        
         # Receive the size of the frame data from the client
         size_data = connection.recv(4)
         if not size_data:
@@ -89,7 +92,7 @@ def send_receive_webcam_frames():
         modified_frame = streamdiffusion(frame, modified_frame)
         
         # convert PIL image to cv2 image
-        modified_frame = cv2.cvtColor(np.array(modified_frame), cv2.COLOR_RGB2BGR)
+        modified_frame = np.array(modified_frame)
 
         # Convert modified frame to JPEG format
         _, modified_frame_data = cv2.imencode('.jpg', modified_frame)
@@ -105,6 +108,11 @@ def send_receive_webcam_frames():
 
         # Send the modified frame data to the client
         connection.sendall(modified_frame_data)
+        
+        end_time = cv2.getTickCount()
+        fps = cv2.getTickFrequency() / (end_time - start_time)
+        print("FPS:", fps)
+        
 
     connection.close()
     webcamSocket.close()
