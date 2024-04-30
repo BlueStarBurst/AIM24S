@@ -54,7 +54,41 @@ def modify_frame(frame):
     modified_frame = masks[0]
     return modified_frame
 
+image_new = None
+sam_new = None
+diffusion_new = None
+
+def sam_thread():
+    global image_new
+    global sam_new
+    global diffusion_new
+    while not stop:
+        if image_new is not None:
+            sam_start = cv2.getTickCount()
+            sam_new = modify_frame(image_new)
+            sam_end = cv2.getTickCount()
+            sam_fps = cv2.getTickFrequency() / (sam_end - sam_start)
+            print("SAM FPS:", sam_fps)
+            # image_new = None
+            
+def diffusion_thread():
+    global image_new
+    global sam_new
+    global diffusion_new
+    while not stop:
+        if sam_new is not None:
+            diff_start = cv2.getTickCount()
+            diffusion_new = streamdiffusion(image_new, sam_new)
+            diff_end = cv2.getTickCount()
+            diff_fps = cv2.getTickFrequency() / (diff_end - diff_start)
+            print("DIFF FPS:", diff_fps)
+            # sam_new = None
+
+# TODO: Make separate threads for SAM and StreamDiffusion
 def send_receive_webcam_frames():
+    global image_new
+    global sam_new
+    global diffusion_new
     webcamSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     webcamServerAddress = (address, 12345)
     webcamSocket.bind(webcamServerAddress)
@@ -63,9 +97,7 @@ def send_receive_webcam_frames():
     connection, client_address = webcamSocket.accept()
     print("Client connected")
 
-    while True:
-        
-        
+    while not stop:
         
         # Receive the size of the frame data from the client
         size_data = connection.recv(4)
@@ -88,47 +120,19 @@ def send_receive_webcam_frames():
         # Convert frame data to numpy array
         frame = cv2.imdecode(np.frombuffer(frame_data, dtype=np.uint8), cv2.IMREAD_COLOR)
 
-
-        sam_start = cv2.getTickCount()
-        # Modify the frame
-        modified_frame = modify_frame(frame)
+        image_new = frame
         
-        sam_end = cv2.getTickCount()
-        sam_fps = cv2.getTickFrequency() / (sam_end - sam_start)
-        print("SAM FPS:", sam_fps)
-        
-        diff_start = cv2.getTickCount()
-        
-        modified_frame = streamdiffusion(frame, modified_frame)
-        
-        diff_end = cv2.getTickCount()
-        diff_fps = cv2.getTickFrequency() / (diff_end - diff_start)
-        print("DIFF FPS:", diff_fps)
-        
-        # convert PIL image to cv2 image
-        modified_frame = np.array(modified_frame)
-
-        # Convert modified frame to JPEG format
-        _, modified_frame_data = cv2.imencode('.jpg', modified_frame)
-
-        # Get the size of the modified frame data
-        modified_frame_size = len(modified_frame_data)
-
-        # Pack the size of the modified frame data as a 4-byte integer
-        modified_size_data = struct.pack("I", modified_frame_size)
-        
+        # send back diffusion new if not None
+        if diffusion_new is not None:
+            # Convert frame to JPEG format
+            _, frame_data = cv2.imencode('.jpg', diffusion_new)
+            frame_size = len(frame_data)
+            connection.send(struct.pack("I", frame_size))
+            connection.send(frame_data)   
+            
         end_time = cv2.getTickCount()
         fps = cv2.getTickFrequency() / (end_time - start_time)
         print("FPS:", fps)
-
-        # Send the size of the modified frame data to the client
-        connection.sendall(modified_size_data)
-
-        # Send the modified frame data to the client
-        connection.sendall(modified_frame_data)
-        
-        
-        
 
     connection.close()
     webcamSocket.close()
@@ -144,6 +148,7 @@ def receiveText():
 
     global textPrompt
     global annotation
+    global stop
     tempData = ""
     text = ""
     annotations = []
@@ -191,6 +196,7 @@ def receiveText():
             print("Error receiving data from client", e)
             break
 
+    stop = True
     connection.close()
     server_socket.close()
 

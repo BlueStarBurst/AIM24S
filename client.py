@@ -17,42 +17,51 @@ classes = []
 
 stop = False
 
-def process_frame(frame):
+frame = None
+
+def yolo_thread():
     global annotations
     global classes
-    # Convert frame from BGR to RGB
-    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    global frame
+    
+    while not stop:
+        # Ensure that frame is not None
+        if frame is None:
+            continue
+    
+        # Convert frame from BGR to RGB
+        frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
-    # Perform object detection on the frame
-    results = model(frame_rgb, verbose=False)
+        # Perform object detection on the frame
+        results = model(frame_rgb, verbose=False)
 
-    # Ensure that results is not empty
-    if results:
-        # Get the first result object
-        result = results[0]
-        
-        annotations = result.boxes.xyxy.tolist()
-        classes = [model.names[int(i)] for i in result.boxes.cls]
-        
-        # print("\n\n\n")
-        # print("ANNOTATIONS",annotations)
-        # print("\n\n\n")
-        # print("CLASSES",classes)
-        # print("\n\n\n")
+        # Ensure that results is not empty
+        if results:
+            # Get the first result object
+            result = results[0]
+            
+            annotations = result.boxes.xyxy.tolist()
+            classes = [model.names[int(i)] for i in result.boxes.cls]
+            
+            # print("\n\n\n")
+            # print("ANNOTATIONS",annotations)
+            # print("\n\n\n")
+            # print("CLASSES",classes)
+            # print("\n\n\n")
 
-        # Get annotated image with bounding boxes
-        annotated_image = result.plot()
+            # Get annotated image with bounding boxes
+            annotated_image = result.plot()
 
-        # Convert annotated image from numpy array to BGR format
-        annotated_image_bgr = cv2.cvtColor(np.array(annotated_image), cv2.COLOR_RGB2BGR)
+            # Convert annotated image from numpy array to BGR format
+            annotated_image_bgr = cv2.cvtColor(np.array(annotated_image), cv2.COLOR_RGB2BGR)
 
-        # Display the frame with bounding boxes
-        cv2.imshow('YOLO Object Detection', annotated_image_bgr)
-    else:
-        # Display the original frame if no results found
-        cv2.imshow('YOLO Object Detection', frame)
-        
-        annotations = {}
+            # Display the frame with bounding boxes
+            cv2.imshow('YOLO Object Detection', annotated_image_bgr)
+        else:
+            # Display the original frame if no results found
+            cv2.imshow('YOLO Object Detection', frame)
+            
+            annotations = {}
 
 def display_frames(original_frame, modified_frame):
     cv2.imshow("Original Frame", original_frame)
@@ -63,6 +72,7 @@ def display_frames(original_frame, modified_frame):
     return True
 
 def sendAndReceiveFrames():
+    global frame
     webcamSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     webcamServerAddress = (address, 12345)
     webcamSocket.connect(webcamServerAddress)
@@ -97,8 +107,6 @@ def sendAndReceiveFrames():
 
         # Send the frame data to the server
         webcamSocket.sendall(frame_data)
-        
-        process_frame(frame)
 
         # Receive the size of the modified frame data from the server
         size_data = webcamSocket.recv(4)
@@ -182,16 +190,19 @@ def main():
     webcamThread = threading.Thread(target=sendAndReceiveFrames)
     textThread = threading.Thread(target=sendText)
     changePromptThread = threading.Thread(target=changePrompt)
+    yoloThread = threading.Thread(target=yolo_thread)
 
     # Starting the threads
     textThread.start()
     webcamThread.start()
     changePromptThread.start()
+    yoloThread.start()
 
     # Waiting for both threads to finish
     webcamThread.join()
     textThread.join()
     changePromptThread.join()
+    yoloThread.join()
 
     print("All functions have finished executing")
 
