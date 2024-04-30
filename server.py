@@ -7,7 +7,7 @@ from mobile_sam import sam_model_registry, SamAutomaticMaskGenerator, SamPredict
 import torch
 import os
 import json
-from streamdiff import streamdiffusion
+from streamdiff import streamdiffusion, setprompt
 
 textPrompt = "Normal"
 
@@ -33,9 +33,6 @@ stop = False
 predictor = SamPredictor(mobile_sam)
 
 annotation = []
-
-def stream_diffusion(image, mask):
-    return image
 
 def modify_frame(frame):
     global annotation
@@ -87,6 +84,8 @@ def send_receive_webcam_frames():
 
         # Modify the frame
         modified_frame = modify_frame(frame)
+        
+        modified_frame = streamdiffusion(modified_frame, frame)
 
         # Convert modified frame to JPEG format
         _, modified_frame_data = cv2.imencode('.jpg', modified_frame)
