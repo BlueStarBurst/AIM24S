@@ -78,7 +78,10 @@ def diffusion_thread():
     while not stop:
         if sam_new is not None:
             diff_start = cv2.getTickCount()
-            diffusion_new = np.array(streamdiffusion(image_new, sam_new))
+            try:
+                diffusion_new = np.array(streamdiffusion(image_new, sam_new))
+            except Exception as e:
+                print("Error in streamdiffusion", e)
             diff_end = cv2.getTickCount()
             diff_fps = cv2.getTickFrequency() / (diff_end - diff_start)
             print("DIFF FPS:", diff_fps)
