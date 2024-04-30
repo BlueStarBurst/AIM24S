@@ -129,6 +129,9 @@ def send_receive_webcam_frames():
             frame_size = len(frame_data)
             connection.send(struct.pack("I", frame_size))
             connection.send(frame_data)   
+        else:
+            # send frame size 0
+            connection.send(struct.pack("I", 0))
             
         end_time = cv2.getTickCount()
         fps = cv2.getTickFrequency() / (end_time - start_time)

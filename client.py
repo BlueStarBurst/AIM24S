@@ -33,7 +33,8 @@ def yolo_thread():
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         # Perform object detection on the frame
-        results = model(frame_rgb, verbose=False)
+        # results = model(frame_rgb, verbose=False)
+        results = model(frame_rgb)
 
         # Ensure that results is not empty
         if results:
@@ -116,6 +117,9 @@ def sendAndReceiveFrames():
 
         # Unpack the size of the modified frame data
         frame_size = struct.unpack("I", size_data)[0]
+        
+        if frame_size == 0:
+            continue
 
         # Receive the modified frame data from the server
         frame_data = b''
