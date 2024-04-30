@@ -1,0 +1,6 @@
+[submodule "MobileSAM"]
+	path = MobileSAM
+	url = https://github.com/ChaoningZhang/MobileSAM.git
+[submodule "StreamDiffusion"]
+	path = StreamDiffusion
+	url = https://github.com/BlueStarBurst/StreamDiffusion.git
