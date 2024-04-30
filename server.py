@@ -87,6 +87,9 @@ def send_receive_webcam_frames():
         modified_frame = modify_frame(frame)
         
         modified_frame = streamdiffusion(frame, modified_frame)
+        
+        # convert PIL image to cv2 image
+        modified_frame = cv2.cvtColor(np.array(modified_frame), cv2.COLOR_RGB2BGR)
 
         # Convert modified frame to JPEG format
         _, modified_frame_data = cv2.imencode('.jpg', modified_frame)
