@@ -99,6 +99,8 @@ def send_receive_webcam_frames():
 
     while not stop:
         
+        start_time = cv2.getTickCount()
+        
         # Receive the size of the frame data from the client
         size_data = connection.recv(4)
         if not size_data:
@@ -115,7 +117,7 @@ def send_receive_webcam_frames():
                 break
             frame_data += data
             
-        start_time = cv2.getTickCount()
+        
 
         # Convert frame data to numpy array
         frame = cv2.imdecode(np.frombuffer(frame_data, dtype=np.uint8), cv2.IMREAD_COLOR)
