@@ -68,6 +68,7 @@ def display_frames(original_frame, modified_frame):
     cv2.imshow("Modified Frame", modified_frame)
     key = cv2.waitKey(1)
     if key == ord('q'):
+        stop = True
         return False
     return True
 
@@ -147,9 +148,9 @@ def sendText():
     textServerAddress = (address, 54321)
     textSocket.connect(textServerAddress)
     
-    print(annotations)
+    # print(annotations)
 
-    while True:
+    while not stop:
         text = textPrompt.replace("\n", "")
 
         annotation = []
@@ -169,7 +170,7 @@ def sendText():
 def changePrompt():
     global textPrompt
     global stop
-    while True:
+    while not stop:
         textPrompt = input("Enter text to send to server: ")
         if textPrompt == "q":
             stop = True
