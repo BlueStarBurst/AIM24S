@@ -32,12 +32,16 @@ from PIL import Image
 import numpy as np
 
 
+import os
+import sys
+# sys.path.append("/content/StreamDiffusion")
+sys.path.append("./StreamDiffusion")
+sys.path.append("./StreamDiffusion/src")
+
 from streamdiffusion.pipeline import StreamDiffusion
 from streamdiffusion.image_utils import postprocess_image, process_image
 
-import os
-import sys
-sys.path.append("/content/StreamDiffusion")
+
 
 from utils.wrapper import StreamDiffusionWrapper
 
