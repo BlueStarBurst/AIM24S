@@ -179,7 +179,11 @@ def receiveText():
             
             newLineIndex = tempData.find("<split>")
             
-            text = tempData[:newLineIndex]
+            newText = tempData[:newLineIndex]
+            if newText != text:
+                text = newText
+                setprompt(text, "bad quality, low resolution, blurry, out of focus")
+            
             annotations = tempData[newLineIndex+7:]
             # print("Received text from client:", text)
             # print("Received annotations from client:", annotations)

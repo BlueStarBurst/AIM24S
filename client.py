@@ -147,7 +147,7 @@ def sendAndReceiveFrames():
     webcamSocket.close()
     cv2.destroyAllWindows()
 
-textPrompt = "prompt"
+textPrompt = "realistic, batman, mask"
 
 def sendText():
     global textPrompt
@@ -179,6 +179,7 @@ def changePrompt():
     global textPrompt
     global stop
     while not stop:
+        print("Current prompt: ", textPrompt)
         textPrompt = input("Enter text to send to server: ")
         if textPrompt == "q":
             stop = True
