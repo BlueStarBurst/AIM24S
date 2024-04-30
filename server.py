@@ -206,17 +206,25 @@ def receiveText():
 def main():
     webcamThread = threading.Thread(target=send_receive_webcam_frames)
     textThread = threading.Thread(target=receiveText)
+    samThread = threading.Thread(target=sam_thread)
+    diffusionThread = threading.Thread(target=diffusion_thread)
 
     webcamThread.daemon = True
     textThread.daemon = True
+    samThread.daemon = True
+    diffusionThread.daemon = True
 
     # Starting the threads
     textThread.start()
     webcamThread.start()
+    samThread.start()
+    diffusionThread.start()
 
     # Waiting for both threads to finish
     webcamThread.join()
     textThread.join()
+    samThread.join()
+    diffusionThread.join()
 
     print("All functions have finished executing")
 

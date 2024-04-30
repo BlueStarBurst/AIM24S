@@ -18,11 +18,13 @@ classes = []
 stop = False
 
 frame = None
+annotated_image_bgr = None
 
 def yolo_thread():
     global annotations
     global classes
     global frame
+    global annotated_image_bgr
     
     while not stop:
         # Ensure that frame is not None
@@ -57,16 +59,18 @@ def yolo_thread():
             annotated_image_bgr = cv2.cvtColor(np.array(annotated_image), cv2.COLOR_RGB2BGR)
 
             # Display the frame with bounding boxes
-            cv2.imshow('YOLO Object Detection', annotated_image_bgr)
+            # cv2.imshow('YOLO Object Detection', annotated_image_bgr)
         else:
             # Display the original frame if no results found
-            cv2.imshow('YOLO Object Detection', frame)
+            # cv2.imshow('YOLO Object Detection', frame)
+            annotated_image_bgr = frame
             
             annotations = {}
 
 def display_frames(original_frame, modified_frame):
     cv2.imshow("Original Frame", original_frame)
     cv2.imshow("Modified Frame", modified_frame)
+    cv2.imshow('YOLO Object Detection', annotated_image_bgr)
     key = cv2.waitKey(1)
     if key == ord('q'):
         stop = True
