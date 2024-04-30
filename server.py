@@ -48,7 +48,7 @@ def modify_frame(frame):
     # save mask
     # print(masks)
     # turn bool to int
-    masks = masks.astype(int)
+    masks = masks.astype(np.uint8)
     # turn 0 and 1 to 0 and 255
     masks = masks * 255
     modified_frame = masks[0]
