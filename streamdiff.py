@@ -94,8 +94,8 @@ def setprompt(prompt, negative_prompt):
 def streamdiffusion(image, mask=None):
     blurred_mask_image = cv2.blur(np.array(mask), (35,35))
     
-    # make 3 channels (512, 512, 3)
-    blurred_mask_image = cv2.cvtColor(blurred_mask_image, cv2.COLOR_GRAY2RGB)
+    # make 3 channels (512, 512, 3) using numpy
+    blurred_mask_image = np.stack([blurred_mask_image, blurred_mask_image, blurred_mask_image], axis=-1)
     
     blurred_mask_image = Image.fromarray(blurred_mask_image)
     image_tensor = stream.preprocess_image(image)
