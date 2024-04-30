@@ -7,6 +7,7 @@ from mobile_sam import sam_model_registry, SamAutomaticMaskGenerator, SamPredict
 import torch
 import os
 import json
+from streamdiff import streamdiffusion
 
 textPrompt = "Normal"
 
