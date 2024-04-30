@@ -32,10 +32,6 @@ from PIL import Image
 import numpy as np
 
 
-
-mask = torch.from_numpy(np.array(blurred_mask_image)).to(device="cuda")
-
-
 from streamdiffusion.pipeline import StreamDiffusion
 from streamdiffusion.image_utils import postprocess_image, process_image
 
