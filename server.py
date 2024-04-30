@@ -85,7 +85,7 @@ def send_receive_webcam_frames():
         # Modify the frame
         modified_frame = modify_frame(frame)
         
-        modified_frame = streamdiffusion(frame, modified_frame
+        modified_frame = streamdiffusion(frame, modified_frame)
 
         # Convert modified frame to JPEG format
         _, modified_frame_data = cv2.imencode('.jpg', modified_frame)
