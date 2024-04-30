@@ -11,6 +11,8 @@ from streamdiff import streamdiffusion
 
 textPrompt = "Normal"
 
+address = "localhost"
+
 # MobileSAM initialization
 model_type = "vit_t"
 sam_checkpoint = "./MobileSAM/weights/mobile_sam.pt"
@@ -54,7 +56,7 @@ def modify_frame(frame):
 
 def send_receive_webcam_frames():
     webcamSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    webcamServerAddress = ('127.0.0.1', 12345)
+    webcamServerAddress = (address, 12345)
     webcamSocket.bind(webcamServerAddress)
     webcamSocket.listen(1)
     print("Server is listening...")
@@ -103,7 +105,7 @@ def send_receive_webcam_frames():
 
 def receiveText():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_address = ('127.0.0.1', 54321)
+    server_address = (address, 54321)
 
     server_socket.bind(server_address)
     server_socket.listen(1)

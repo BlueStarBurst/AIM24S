@@ -175,6 +175,7 @@ def main():
     # get the address from the args
     global address
     if len(args) > 1:
+        print("Address provided in args", args[1])
         address = args[1]
     
     
