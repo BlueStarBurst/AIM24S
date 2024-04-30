@@ -51,7 +51,7 @@ from utils.wrapper import StreamDiffusionWrapper
 stream = StreamDiffusionWrapper(
         model_id_or_path="stabilityai/sd-turbo",
         lora_dict=None,
-        t_index_list=[5],
+        t_index_list=[2,5,8],
         frame_buffer_size=1,
         width=512,
         height=512,
@@ -64,18 +64,18 @@ stream = StreamDiffusionWrapper(
         inpaint=True
     )
 
-prompt = "realistic, batman"
+prompt = "realistic, batman, mask"
 # prompt = "realistic, mount rushmore"
 # prompt = "realistic, volcano, magma, lava, fire, red"
 negative_prompt = "cartoon, smoke, grey"
 # Prepare the stream
 stream.prepare(
-        prompt=prompt,
-        negative_prompt=negative_prompt,
-        num_inference_steps=10,
-        guidance_scale=1.2,
-        delta=0.5,
-    )
+    prompt=prompt,
+    negative_prompt=negative_prompt,
+    num_inference_steps=10,
+    guidance_scale=1.2,
+    delta=0.5,
+)
 
 # Prepare image
 # init_image = load_image("/content/StreamDiffusion/assets/img2img_example.png").resize((512, 512))
