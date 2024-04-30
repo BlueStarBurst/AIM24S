@@ -35,8 +35,8 @@ def yolo_thread():
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         # Perform object detection on the frame
-        # results = model(frame_rgb, verbose=False)
-        results = model(frame_rgb)
+        results = model(frame_rgb, verbose=False)
+        # results = model(frame_rgb)
 
         # Ensure that results is not empty
         if results:

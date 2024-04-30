@@ -72,7 +72,7 @@ negative_prompt = "cartoon, smoke, grey"
 stream.prepare(
         prompt=prompt,
         negative_prompt=negative_prompt,
-        num_inference_steps=50,
+        num_inference_steps=1,
         guidance_scale=1.2,
         delta=0.5,
     )
@@ -86,7 +86,7 @@ def setprompt(prompt, negative_prompt):
     stream.prepare(
         prompt=prompt,
         negative_prompt=negative_prompt,
-        num_inference_steps=50,
+        num_inference_steps=1,
         guidance_scale=1.2,
         delta=0.5,
     )
