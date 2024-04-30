@@ -11,7 +11,10 @@ from streamdiff import streamdiffusion
 
 textPrompt = "Normal"
 
-address = "localhost"
+
+# get the local address of the server
+address = "0.0.0.0"
+
 
 # MobileSAM initialization
 model_type = "vit_t"
