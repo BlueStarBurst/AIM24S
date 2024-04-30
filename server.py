@@ -88,10 +88,22 @@ def send_receive_webcam_frames():
         # Convert frame data to numpy array
         frame = cv2.imdecode(np.frombuffer(frame_data, dtype=np.uint8), cv2.IMREAD_COLOR)
 
+
+        sam_start = cv2.getTickCount()
         # Modify the frame
         modified_frame = modify_frame(frame)
         
+        sam_end = cv2.getTickCount()
+        sam_fps = cv2.getTickFrequency() / (sam_end - sam_start)
+        print("SAM FPS:", sam_fps)
+        
+        diff_start = cv2.getTickCount()
+        
         modified_frame = streamdiffusion(frame, modified_frame)
+        
+        diff_end = cv2.getTickCount()
+        diff_fps = cv2.getTickFrequency() / (diff_end - diff_start)
+        print("DIFF FPS:", diff_fps)
         
         # convert PIL image to cv2 image
         modified_frame = np.array(modified_frame)

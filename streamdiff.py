@@ -103,7 +103,7 @@ def streamdiffusion(image, mask=None):
     
     blurred_mask_image = cv2.blur(np.array(maskArr), (35,35))
     
-    print(blurred_mask_image.shape)
+    # print(blurred_mask_image.shape)
     
     # make 3 channels (512, 512) -> (512, 512, 3)
     # blurred_mask_image = cv2.cvtColor(blurred_mask_image, cv2.COLOR_GRAY2RGB)
