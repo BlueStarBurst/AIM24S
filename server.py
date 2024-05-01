@@ -71,7 +71,7 @@ def sam_thread():
             print("SAM FPS:", sam_fps)
             # image_new = None
             
-# TODO: potentially make sepearte streamdiffusion instances to cycle through
+# TODO: potentially make sepearte streamdiffusion instances to cycle through + simplify streamdiffusion overhead (it said 90fps! why is it only 2fps on a H100!?!?!) D;
 def diffusion_thread():
     global image_new
     global sam_new
