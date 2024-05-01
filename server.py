@@ -71,6 +71,7 @@ def sam_thread():
             print("SAM FPS:", sam_fps)
             # image_new = None
             
+# TODO: potentially make sepearte streamdiffusion instances to cycle through
 def diffusion_thread():
     global image_new
     global sam_new
@@ -87,7 +88,6 @@ def diffusion_thread():
             print("DIFF FPS:", diff_fps)
             # sam_new = None
 
-# TODO: Make separate threads for SAM and StreamDiffusion
 def send_receive_webcam_frames():
     global image_new
     global sam_new
