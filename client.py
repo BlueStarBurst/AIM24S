@@ -11,6 +11,7 @@ from ultralytics import YOLO
 model = YOLO('yolov8n.pt')
 
 address = '127.0.0.1'
+ports = [40397, 40634]
 
 annotations = []
 classes = []
@@ -80,7 +81,7 @@ def display_frames(original_frame, modified_frame):
 def sendAndReceiveFrames():
     global frame
     webcamSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    webcamServerAddress = (address, 3000)
+    webcamServerAddress = (address, ports[0])
     webcamSocket.connect(webcamServerAddress)
 
     cap = cv2.VideoCapture(0)
@@ -153,7 +154,7 @@ def sendText():
     global textPrompt
     global annotations
     textSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    textServerAddress = (address, 3001)
+    textServerAddress = (address, ports[1])
     textSocket.connect(textServerAddress)
     
     # print(annotations)
