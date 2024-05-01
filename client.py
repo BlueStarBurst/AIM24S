@@ -80,7 +80,7 @@ def display_frames(original_frame, modified_frame):
 def sendAndReceiveFrames():
     global frame
     webcamSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    webcamServerAddress = (address, 12345)
+    webcamServerAddress = (address, 3000)
     webcamSocket.connect(webcamServerAddress)
 
     cap = cv2.VideoCapture(0)
@@ -153,7 +153,7 @@ def sendText():
     global textPrompt
     global annotations
     textSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    textServerAddress = (address, 54321)
+    textServerAddress = (address, 3001)
     textSocket.connect(textServerAddress)
     
     # print(annotations)

@@ -93,7 +93,7 @@ def send_receive_webcam_frames():
     global sam_new
     global diffusion_new
     webcamSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    webcamServerAddress = (address, 12345)
+    webcamServerAddress = (address, 3000)
     webcamSocket.bind(webcamServerAddress)
     webcamSocket.listen(1)
     print("Server is listening...")
@@ -147,7 +147,7 @@ def send_receive_webcam_frames():
 
 def receiveText():
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    server_address = (address, 54321)
+    server_address = (address, 3001)
 
     server_socket.bind(server_address)
     server_socket.listen(1)
