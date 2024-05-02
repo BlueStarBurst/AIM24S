@@ -140,3 +140,8 @@ def streamdiffusion(image, mask=None):
 
     # output_image
     return Image.fromarray(fixed)
+
+# if main
+if __name__ == "__main__":
+    while True:
+        streamdiffusion(init_image, np.array(mask_image))
