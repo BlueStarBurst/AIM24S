@@ -178,7 +178,7 @@ def receiveText():
             nextTempData = "".join(tempData.split("<end>")[1:])
             
             if "<split>" in text:
-                textPrompt = text.split("<split>")[0]
+                newTextPrompt = text.split("<split>")[0]
                 tmp_annotation = text.split("<split>")[1]
                 floatArray = tmp_annotation.replace("[", "").replace("]", "").replace(" ", "").split(",")
                 fake = False
@@ -193,10 +193,11 @@ def receiveText():
                         
                 # print("Annotation:", annotation)
             else:
-                textPrompt = text
+                newTextPrompt = text
                 annotation = []
                 
-            setprompt(textPrompt, "bad quality, fake, not realistic")
+            if newTextPrompt != textPrompt:
+                setprompt(textPrompt, "bad quality, fake, not realistic")
                 
             tempData = nextTempData
             
