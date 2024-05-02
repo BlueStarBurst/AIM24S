@@ -11,7 +11,8 @@ from ultralytics import YOLO
 model = YOLO('yolov8n.pt')
 
 address = '127.0.0.1'
-ports = [40100, 40565]
+# ports = [40100, 40565]
+ports = [3000,3001]
 
 annotations = []
 classes = []
