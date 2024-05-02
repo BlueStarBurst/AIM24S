@@ -90,7 +90,7 @@ def setprompt(prompt, negative_prompt):
     stream.prepare(
         prompt=prompt,
         negative_prompt=negative_prompt,
-        num_inference_steps=10,
+        num_inference_steps=50,
         guidance_scale=1.2,
         delta=0.5,
     )
