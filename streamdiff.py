@@ -37,11 +37,11 @@ import sys
 # sys.path.append("/content/StreamDiffusion")
 
 
-# sys.path.append("./StreamDiffusion")
-# sys.path.append("./StreamDiffusion/src")
+sys.path.append("./StreamDiffusion")
+sys.path.append("./StreamDiffusion/src")
 
-sys.path.append("./RealStream")
-sys.path.append("./RealStream/src")
+# sys.path.append("./RealStream")
+# sys.path.append("./RealStream/src")
 
 from streamdiffusion.pipeline import StreamDiffusion
 from streamdiffusion.image_utils import postprocess_image, process_image
