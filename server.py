@@ -68,7 +68,7 @@ def sam_thread():
             sam_new = modify_frame(image_new)
             sam_end = cv2.getTickCount()
             sam_fps = cv2.getTickFrequency() / (sam_end - sam_start)
-            print("SAM FPS:", sam_fps)
+            # print("SAM FPS:", sam_fps)/
             # image_new = None
             
 # TODO: potentially make sepearte streamdiffusion instances to cycle through + simplify streamdiffusion overhead (it said 90fps! why is it only 2fps on a H100!?!?!) D;
@@ -85,7 +85,7 @@ def diffusion_thread():
                 print("Error in streamdiffusion", e)
             diff_end = cv2.getTickCount()
             diff_fps = cv2.getTickFrequency() / (diff_end - diff_start)
-            print("DIFF FPS:", diff_fps)
+            # print("DIFF FPS:", diff_fps)
             # sam_new = None
 
 def send_receive_webcam_frames():
@@ -140,7 +140,7 @@ def send_receive_webcam_frames():
             
         end_time = cv2.getTickCount()
         fps = cv2.getTickFrequency() / (end_time - start_time)
-        print("FPS:", fps)
+        # print("FPS:", fps)
 
     connection.close()
     webcamSocket.close()
