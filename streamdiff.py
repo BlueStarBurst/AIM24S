@@ -56,7 +56,7 @@ from utils.wrapper import StreamDiffusionWrapper
 stream = StreamDiffusionWrapper(
         model_id_or_path="stabilityai/sd-turbo",
         lora_dict=None,
-        t_index_list=[0],
+        t_index_list=[5,22,32,45],
         frame_buffer_size=1,
         width=512,
         height=512,
@@ -76,7 +76,7 @@ negative_prompt = "cartoon, smoke, grey"
 stream.prepare(
     prompt=prompt,
     negative_prompt=negative_prompt,
-    num_inference_steps=1,
+    num_inference_steps=50,
     guidance_scale=1.2,
     delta=0.5,
 )
