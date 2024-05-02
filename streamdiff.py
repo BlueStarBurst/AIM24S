@@ -122,8 +122,8 @@ def streamdiffusion(image, mask=None):
     # print("PROCESS FPS:", process_fps)
     
     stream_start = cv2.getTickCount()
-    # output_image = stream(image_tensor, mask=blurred_mask_image)
-    output_image = stream(image_tensor)
+    output_image = stream(image_tensor, mask=blurred_mask_image)
+    # output_image = stream(image_tensor)
     stream_end = cv2.getTickCount()
     stream_fps = cv2.getTickFrequency() / (stream_end - stream_start)
     # print("STREAM FPS:", stream_fps)
