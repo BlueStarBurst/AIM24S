@@ -206,7 +206,7 @@ def receiveText():
             tempData = nextTempData
         except Exception as e:
             print("Error receiving data from client", e)
-            break
+            # break
 
     stop = True
     connection.close()
