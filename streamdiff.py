@@ -66,7 +66,7 @@ stream = StreamDiffusionWrapper(
         use_denoising_batch=True,
         cfg_type="self",
         seed=2,
-        # inpaint=False
+        inpaint=True
     )
 
 prompt = "realistic, batman, mask"
