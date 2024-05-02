@@ -35,8 +35,13 @@ import numpy as np
 import os
 import sys
 # sys.path.append("/content/StreamDiffusion")
-sys.path.append("./StreamDiffusion")
-sys.path.append("./StreamDiffusion/src")
+
+
+# sys.path.append("./StreamDiffusion")
+# sys.path.append("./StreamDiffusion/src")
+
+sys.path.append("./RealStream")
+sys.path.append("./RealStream/src")
 
 from streamdiffusion.pipeline import StreamDiffusion
 from streamdiffusion.image_utils import postprocess_image, process_image
@@ -117,7 +122,8 @@ def streamdiffusion(image, mask=None):
     print("PROCESS FPS:", process_fps)
     
     stream_start = cv2.getTickCount()
-    output_image = stream(image_tensor, mask=blurred_mask_image)
+    # output_image = stream(image_tensor, mask=blurred_mask_image)
+    output_image = stream(image_tensor)
     stream_end = cv2.getTickCount()
     stream_fps = cv2.getTickFrequency() / (stream_end - stream_start)
     print("STREAM FPS:", stream_fps)
