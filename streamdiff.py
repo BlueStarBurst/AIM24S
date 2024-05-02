@@ -107,7 +107,7 @@ def streamdiffusion(image, mask=None):
     print(maskArr.shape)
     # print(maskArr.shape)
     
-    blurred_mask_image = cv2.blur(np.array(maskArr), (35,35))
+    blurred_mask_image = cv2.blur(mask, (35,35))
     
     # print(blurred_mask_image.shape)
     
