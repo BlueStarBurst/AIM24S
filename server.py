@@ -161,52 +161,45 @@ def receiveText():
     text = ""
     annotations = []
     nextTempData = ""
-    while text != "q":
-        # try:
-            # Receive text from client
-            tempData += connection.recv(1024*20).decode()
+    
+    while not stop and text != "q":
+        # read for text and annotations (ex: <start>text<split>annotation<end>)
+        data = connection.recv(1024).decode()
+        if not data:
+            break
+        tempData += data
+        
+        # print("TempData:", tempData)
+        # print("Data:", data)
+        
+        if "<end>" in tempData:
+            text = tempData.split("<end>")[0]
+            # print("Text:", text)
+            nextTempData = "".join(tempData.split("<end>")[1:])
             
-            
-            newLineIndex = tempData.find("<end>")
-            
-            if newLineIndex == -1:
-                continue
+            if "<split>" in text:
+                textPrompt = text.split("<split>")[0]
+                tmp_annotation = text.split("<split>")[1]
+                floatArray = tmp_annotation.replace("[", "").replace("]", "").replace(" ", "").split(",")
+                fake = False
+                if len(floatArray) == 4:
+                    for i in range(len(floatArray)):
+                        if floatArray[i] == "":
+                            fake = True
+                            break
+                        floatArray[i] = float(floatArray[i])
+                    if not fake:
+                        annotation = np.array(floatArray)
+                        
+                # print("Annotation:", annotation)
             else:
-                tempData = tempData[:newLineIndex]
-                nextTempData = tempData[newLineIndex+5:]
-            
-            # print("Received data from client:", tempData)
-            
-            newLineIndex = tempData.find("<split>")
-            
-            newText = tempData[:newLineIndex]
-            if newText != text:
-                text = newText
-                setprompt(text, "bad quality, low resolution, blurry, out of focus")
-            
-            annotations = tempData[newLineIndex+7:]
-            print("Received text from client:", text)
-            print("Received annotations from client:", annotations)
-            
-            # json annotations
-            
-            floatArray = annotations.replace("[", "").replace("]", "").replace(" ", "").split(",")
-            
-            fake = False
-            if len(floatArray) == 4:
-                for i in range(len(floatArray)):
-                    if floatArray[i] == "":
-                        fake = True
-                        break
-                    floatArray[i] = float(floatArray[i])
-                # print("ARRRR:",floatArray)
-                if not fake:
-                    annotation = np.array(floatArray)
-            
+                textPrompt = text
+                annotation = []
+                
+            setprompt(textPrompt, "bad quality, fake, not realistic")
+                
             tempData = nextTempData
-        # except Exception as e:
-        #     print("Error receiving data from client", e)
-        #     # break
+            
 
     stop = True
     connection.close()
