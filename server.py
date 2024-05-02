@@ -162,7 +162,7 @@ def receiveText():
     annotations = []
     nextTempData = ""
     while text != "q":
-        try:
+        # try:
             # Receive text from client
             tempData += connection.recv(1024*20).decode()
             
@@ -204,9 +204,9 @@ def receiveText():
                     annotation = np.array(floatArray)
             
             tempData = nextTempData
-        except Exception as e:
-            print("Error receiving data from client", e)
-            # break
+        # except Exception as e:
+        #     print("Error receiving data from client", e)
+        #     # break
 
     stop = True
     connection.close()
