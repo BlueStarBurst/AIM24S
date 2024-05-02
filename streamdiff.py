@@ -144,4 +144,4 @@ def streamdiffusion(image, mask=None):
 # if main
 if __name__ == "__main__":
     while True:
-        streamdiffusion(init_image, np.array(mask_image))
+        streamdiffusion(np.array(init_image), mask_image)
