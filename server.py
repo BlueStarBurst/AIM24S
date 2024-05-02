@@ -185,8 +185,8 @@ def receiveText():
                 setprompt(text, "bad quality, low resolution, blurry, out of focus")
             
             annotations = tempData[newLineIndex+7:]
-            # print("Received text from client:", text)
-            # print("Received annotations from client:", annotations)
+            print("Received text from client:", text)
+            print("Received annotations from client:", annotations)
             
             # json annotations
             
