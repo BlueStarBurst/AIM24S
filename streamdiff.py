@@ -102,12 +102,12 @@ def streamdiffusion(image, mask=None):
     maskArr = np.array(mask)
     # print(maskArr.shape)
     # make 3 channels (512, 512) -> (512, 512, 3) with numpy
-    print(maskArr.shape)
-    maskArr = np.stack((maskArr,)*3, axis=-1)
-    print(maskArr.shape)
+    # print(maskArr.shape)
+    # maskArr = np.stack((maskArr,)*3, axis=-1)
+    # print(maskArr.shape)
     # print(maskArr.shape)
     
-    blurred_mask_image = cv2.blur(mask, (35,35))
+    blurred_mask_image = cv2.blur(maskArr, (35,35))
     
     # print(blurred_mask_image.shape)
     
