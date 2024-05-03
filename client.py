@@ -6,9 +6,10 @@ import numpy as np
 import threading
 import json
 from ultralytics import YOLO
+from time import sleep
 
 # Load the YOLO model
-model = YOLO('yolov8n.pt')
+
 
 address = '127.0.0.1'
 ports = [42037, 42061]
@@ -23,6 +24,7 @@ frame = None
 annotated_image_bgr = None
 
 def yolo_thread():
+    model = YOLO('yolov8n.pt')
     global annotations
     global classes
     global annotated_image_bgr
@@ -38,8 +40,7 @@ def yolo_thread():
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         # Perform object detection on the frame
-        results = model(frame_rgb, verbose=True)
-        print("Results:", results)
+        results = model(frame_rgb, verbose=False)
         # results = model(frame_rgb)
 
         # Ensure that results is not empty
@@ -61,7 +62,6 @@ def yolo_thread():
 
             # Convert annotated image from numpy array to BGR format
             annotated_image_bgr = cv2.cvtColor(np.array(annotated_image), cv2.COLOR_RGB2BGR)
-            print("plotted")
 
             # Display the frame with bounding boxes
             # cv2.imshow('YOLO Object Detection', annotated_image_bgr)
@@ -74,49 +74,6 @@ def yolo_thread():
             annotations = []
             
     print("Yolo thread has stopped")
-    
-def yolo(model,frame):
-    global annotations
-    global classes
-    global annotated_image_bgr
-    # Convert frame from BGR to RGB
-    frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-
-    # Perform object detection on the frame
-    results = model(frame_rgb, verbose=True)
-    print("Results:", results)
-
-    # Ensure that results is not empty
-    if results:
-        # Get the first result object
-        result = results[0]
-        
-        annotations = result.boxes.xyxy.tolist()
-        classes = [model.names[int(i)] for i in result.boxes.cls]
-        
-        # print("\n\n\n")
-        # print("ANNOTATIONS",annotations)
-        # print("\n\n\n")
-        # print("CLASSES",classes)
-        # print("\n\n\n")
-
-        # Get annotated image with bounding boxes
-        annotated_image = result.plot()
-
-        # Convert annotated image from numpy array to BGR format
-        annotated_image_bgr = cv2.cvtColor(np.array(annotated_image), cv2.COLOR_RGB2BGR)
-        print("plotted")
-
-        # Display the frame with bounding boxes
-        # cv2.imshow('YOLO Object Detection', annotated_image_bgr)
-    else:
-        print("No results found")
-        # Display the original frame if no results found
-        # cv2.imshow('YOLO Object Detection', frame)
-        annotated_image_bgr = frame
-        
-        annotations = []
-    
 
 def display_frames(original_frame, modified_frame):
     global stop
@@ -131,29 +88,16 @@ def display_frames(original_frame, modified_frame):
         return False
     return True
 
+modified_frame = None
+
 def sendAndReceiveFrames():
     global stop
+    
     webcamSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     webcamServerAddress = (address, ports[0])
     webcamSocket.connect(webcamServerAddress)
 
     cap = cv2.VideoCapture(0)
-    ret, tframe = cap.read()
-    if not ret:
-        return
-    
-    w = tframe.shape[1]
-    h = tframe.shape[0]
-    s = min(w, h)
-    # crop width to center s 
-    tframe = tframe[(h-s)//2:(h+s)//2, (w-s)//2:(w+s)//2] 
-    # resize to 512x512
-    global frame
-    global model
-    frame = cv2.resize(tframe, (512, 512))
-    
-    # create yolo thread
-    yolo(model,frame)
 
     while not stop:
         # Capture frame from webcam
@@ -167,12 +111,10 @@ def sendAndReceiveFrames():
         # crop width to center s 
         tframe = tframe[(h-s)//2:(h+s)//2, (w-s)//2:(w+s)//2] 
         # resize to 512x512
+        global frame
         frame = cv2.resize(tframe, (512, 512))
         
         # create yolo thread
-        
-        yoloThread = threading.Thread(target=yolo, args=(model,frame))
-        yoloThread.start()
 
         # Convert frame to JPEG format
         _, frame_data = cv2.imencode('.jpg', frame)
@@ -212,12 +154,13 @@ def sendAndReceiveFrames():
             frame_data += data
 
         # Convert frame data to numpy array
+        global modified_frame
         modified_frame = cv2.imdecode(np.frombuffer(frame_data, dtype=np.uint8), cv2.IMREAD_COLOR)
 
         # Display both original and modified frames
-        should_continue = display_frames(frame, modified_frame)
-        if not should_continue:
-            break
+        # should_continue = display_frames(frame, modified_frame)
+        # if not should_continue:
+        #     break
         
         if stop:
             break
@@ -239,16 +182,19 @@ def sendText():
         text = textPrompt.replace("\n", "")
 
         annotation = []
+        cp = annotations
         if len(annotations) > 0:
-            annotation = annotations[0]
+            annotation = cp[0]
 
-            print("Sending annotation", json.dumps(annotation))
+            # print("Sending annotation", json.dumps(annotation))
 
             # Send text to server
             textSocket.sendall((text + "<split>" + json.dumps(annotation) + "<end>").encode())
         
         if stop:
             break
+        
+        sleep(0.1)
 
     textSocket.close()
     
@@ -257,12 +203,25 @@ def changePrompt():
     while not stop:        
         tmpTextPrompt = input("Enter text to send to server: ")
         global textPrompt
-        print("Current prompt: ", textPrompt)
+        print("Current prompt: ", tmpTextPrompt)
         textPrompt = tmpTextPrompt
         if textPrompt == "q":
             stop = True
             break
         
+
+def loop_display():
+    global stop
+    while not stop:
+        if annotated_image_bgr is not None:
+            cv2.imshow('YOLO Object Detection', annotated_image_bgr)
+            if modified_frame is not None:
+                cv2.imshow("Modified Frame", modified_frame)
+        key = cv2.waitKey(1)
+        if key == ord('q') or stop:
+            cv2.destroyAllWindows()
+            stop = True
+            break
 
 def main():
     
@@ -274,22 +233,25 @@ def main():
         print("Address provided in args", args[1])
         address = args[1]
     
-    # yoloThread = threading.Thread(target=yolo_thread)
+    yoloThread = threading.Thread(target=yolo_thread)
     webcamThread = threading.Thread(target=sendAndReceiveFrames)
     textThread = threading.Thread(target=sendText)
-    # changePromptThread = threading.Thread(target=changePrompt)
+    changePromptThread = threading.Thread(target=changePrompt)
+    displayThread = threading.Thread(target=loop_display)
 
     # Starting the threads
-    # yoloThread.start()
+    yoloThread.start()
     textThread.start()
     webcamThread.start()
-    # changePromptThread.start()
+    changePromptThread.start()
+    displayThread.start()
 
     # Waiting for both threads to finish
     webcamThread.join()
     textThread.join()
-    # yoloThread.join()
-    # changePromptThread.join()
+    yoloThread.join()
+    changePromptThread.join()
+    displayThread.join()
 
     print("All functions have finished executing")
 
