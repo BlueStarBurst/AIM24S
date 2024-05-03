@@ -194,6 +194,7 @@ def receiveText():
             if "<split>" in text:
                 newTextPrompt = text.split("<split>")[0]
                 tmp_annotation = text.split("<split>")[1]
+                print("TMP Annotation:", tmp_annotation)
                 floatArray = tmp_annotation.replace("[", "").replace("]", "").replace(" ", "").split(",")
                 fake = False
                 if len(floatArray) == 4:
