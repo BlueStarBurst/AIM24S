@@ -244,22 +244,22 @@ def main():
     samThread.start()
     diffusionThread.start()
     
-    while True:
-        try:
-            webcamThread = threading.Thread(target=send_receive_webcam_frames)
-            textThread = threading.Thread(target=receiveText)
-            
-            webcamThread.daemon = True
-            textThread.daemon = True
-            
-            textThread.start()
-            webcamThread.start()
-            
-            webcamThread.join()
-            textThread.join()
-        except Exception as e:
-            print("Error in main", e)
-            break
+    # while True:
+    #     try:
+    webcamThread = threading.Thread(target=send_receive_webcam_frames)
+    textThread = threading.Thread(target=receiveText)
+    
+    webcamThread.daemon = True
+    textThread.daemon = True
+    
+    textThread.start()
+    webcamThread.start()
+    
+    webcamThread.join()
+    textThread.join()
+        # except Exception as e:
+        #     print("Error in main", e)
+        #     break
 
     # Waiting for both threads to finish
     

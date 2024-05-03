@@ -12,7 +12,7 @@ from time import sleep
 
 
 address = '127.0.0.1'
-ports = [40195, 40490]
+ports = [40195, 40245]
 # ports = [3000,3001]
 
 annotations = []
@@ -28,7 +28,7 @@ def yolo_thread():
     global annotations
     global classes
     global annotated_image_bgr
-    print("Yolo thread has started")
+    # print("Yolo thread has started")
     while not stop:
         # Ensure that frame is not None
         global frame
@@ -186,7 +186,7 @@ def sendText():
         if len(annotations) > 0:
             annotation = cp[0]
 
-            # print("Sending annotation", json.dumps(annotation))
+            print("Sending annotation", json.dumps(annotation))
 
             # Send text to server
             textSocket.sendall((text + "<split>" + json.dumps(annotation) + "<end>").encode())
