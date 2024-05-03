@@ -131,25 +131,25 @@ def send_receive_webcam_frames():
         
         # send back diffusion new if not None
         
-        # if sam_new is not None:
-        #     # send the mask back to the client 
-        #     maskArr = np.array(sam_new)
-        #     maskArr = np.stack((maskArr,)*3, axis=-1)
-        #     blurred_mask_image = cv2.blur(maskArr, (35,35))
+        if sam_new is not None:
+            # send the mask back to the client 
+            maskArr = np.array(sam_new)
+            maskArr = np.stack((maskArr,)*3, axis=-1)
+            blurred_mask_image = cv2.blur(maskArr, (35,35))
             
-        #     _, frame_data = cv2.imencode('.jpg', blurred_mask_image)
-        #     frame_size = len(frame_data)
-        #     connection.send(struct.pack("I", frame_size))
-        #     connection.send(frame_data)   
-            
-            
-            
-        if diffusion_new is not None:
-            # Convert frame to JPEG format
-            _, frame_data = cv2.imencode('.jpg', diffusion_new)
+            _, frame_data = cv2.imencode('.jpg', blurred_mask_image)
             frame_size = len(frame_data)
             connection.send(struct.pack("I", frame_size))
             connection.send(frame_data)   
+            
+            
+            
+        # if diffusion_new is not None:
+        #     # Convert frame to JPEG format
+        #     _, frame_data = cv2.imencode('.jpg', diffusion_new)
+        #     frame_size = len(frame_data)
+        #     connection.send(struct.pack("I", frame_size))
+        #     connection.send(frame_data)   
         else:
             # send frame size 0
             connection.send(struct.pack("I", 0))
