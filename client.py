@@ -97,7 +97,7 @@ def sendAndReceiveFrames():
     webcamServerAddress = (address, ports[0])
     webcamSocket.connect(webcamServerAddress)
 
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(1)
 
     while not stop:
         # Capture frame from webcam
@@ -169,7 +169,7 @@ def sendAndReceiveFrames():
     webcamSocket.close()
     cv2.destroyAllWindows()
 
-textPrompt = "realistic, batman, mask"
+textPrompt = "realistic, batman, black mask, handsome"
 
 def sendText():
     textSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -184,7 +184,17 @@ def sendText():
         annotation = []
         cp = annotations
         if len(annotations) > 0:
-            annotation = cp[0]
+            
+            i = 0
+            for clas in classes:
+                if "person" in clas:
+                    break
+                i += 1                    
+            
+            if i >= len(cp):
+                i = 0
+            
+            annotation = cp[i]
 
             print("Sending annotation", json.dumps(annotation))
 
