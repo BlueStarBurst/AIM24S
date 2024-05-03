@@ -106,7 +106,7 @@ def setprompt(prompt, negative_prompt):
         prompt=prompt,
         negative_prompt=negative_prompt,
         num_inference_steps=50,
-        guidance_scale=1.6,
+        guidance_scale=1.2,
         delta=0.5,
     )
 

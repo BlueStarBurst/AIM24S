@@ -222,7 +222,7 @@ def receiveText():
                 
             if newTextPrompt != textPrompt:
                 print("Changing prompt to:", newTextPrompt)
-                setprompt(newTextPrompt + ", high definition, colorful, realistic", "bad quality, fake, not realistic, grayscale, black and white, not colorful, blurry")
+                setprompt(newTextPrompt + ", high definition, realistic", "bad quality, fake, not realistic, black and white, not colorful, blurry")
                 textPrompt = newTextPrompt
                 
             tempData = nextTempData
