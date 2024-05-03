@@ -59,15 +59,17 @@ def yolo_thread():
 
             # Convert annotated image from numpy array to BGR format
             annotated_image_bgr = cv2.cvtColor(np.array(annotated_image), cv2.COLOR_RGB2BGR)
+            print("plotted")
 
             # Display the frame with bounding boxes
             # cv2.imshow('YOLO Object Detection', annotated_image_bgr)
         else:
+            print("No results found")
             # Display the original frame if no results found
             # cv2.imshow('YOLO Object Detection', frame)
             annotated_image_bgr = frame
             
-            annotations = {}
+            annotations = []
 
 def display_frames(original_frame, modified_frame):
     global annotated_image_bgr
