@@ -194,6 +194,7 @@ def receiveText():
             
             # get very last end
             nextTempData = tempData.split("<end>")[-1]
+            print("NextTempData:", nextTempData)
             
             if "<split>" in text:
                 newTextPrompt = text.split("<split>")[0]

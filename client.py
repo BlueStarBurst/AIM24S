@@ -70,9 +70,12 @@ def yolo_thread():
             annotations = {}
 
 def display_frames(original_frame, modified_frame):
+    global annotated_image_bgr
+    global stop
     cv2.imshow("Original Frame", original_frame)
     cv2.imshow("Modified Frame", modified_frame)
-    cv2.imshow('YOLO Object Detection', annotated_image_bgr)
+    if annotated_image_bgr is not None:
+        cv2.imshow('YOLO Object Detection', annotated_image_bgr)
     key = cv2.waitKey(1)
     if key == ord('q'):
         stop = True
