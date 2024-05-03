@@ -205,10 +205,11 @@ def receiveText():
                     if not fake:
                         annotation = np.array(floatArray)
                         
-                # print("Annotation:", annotation)
+                print("Annotation1:", annotation)
             else:
                 newTextPrompt = text
                 annotation = []
+                print("Annotation2:", annotation)
                 
             if newTextPrompt != textPrompt:
                 setprompt(textPrompt, "bad quality, fake, not realistic")
