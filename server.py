@@ -42,6 +42,7 @@ def modify_frame(frame):
     
     if len(annotation) > 0:
         masks, _, _ = predictor.predict(box=annotation)
+        print("Annotation:", annotation)
     else:
         masks, _, _ = predictor.predict()
         
