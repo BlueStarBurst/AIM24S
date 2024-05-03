@@ -167,10 +167,10 @@ def sendText():
         if len(annotations) > 0:
             annotation = annotations[0]
 
-        print("Sending annotation", json.dumps(annotation))
+            print("Sending annotation", json.dumps(annotation))
 
-        # Send text to server
-        textSocket.sendall((text + "<split>" + json.dumps(annotation) + "<end>").encode())
+            # Send text to server
+            textSocket.sendall((text + "<split>" + json.dumps(annotation) + "<end>").encode())
         
         if stop:
             break
