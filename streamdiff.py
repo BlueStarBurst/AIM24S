@@ -115,6 +115,9 @@ def streamdiffusion(image, mask=None):
     image = Image.fromarray(image)
     
     maskArr = np.array(mask)
+    
+    print(maskArr.shape, maskArr[256][256])
+    
     # print(maskArr.shape)
     # make 3 channels (512, 512) -> (512, 512, 3) with numpy
     # print(maskArr.shape)
