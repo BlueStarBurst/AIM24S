@@ -132,7 +132,7 @@ def streamdiffusion(image, mask=None):
     stream_fps = cv2.getTickFrequency() / (stream_end - stream_start)
     print("STREAM FPS:", stream_fps)
     
-    mask = (np.array(blurred_mask_image)/255).astype(np.float16)
+    mask = (np.array(blurred_mask_image)).astype(np.float16)
     output_arr = np.array(output_image)
 
     # print(mask.shape)
