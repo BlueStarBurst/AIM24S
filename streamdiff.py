@@ -53,15 +53,30 @@ from utils.wrapper import StreamDiffusionWrapper
 # Wrap the pipeline in StreamDiffusion
 # Requires more long steps (len(t_index_list)) in text2image
 # You should use cfg_type="none" when text2image
+# stream = StreamDiffusionWrapper(
+#         model_id_or_path="stabilityai/sd-turbo",
+#         lora_dict=None,
+#         t_index_list=[5,22,32,45],
+#         frame_buffer_size=1,
+#         width=512,
+#         height=512,
+#         warmup=1,
+#         acceleration="tensorrt",
+#         mode="img2img",
+#         use_denoising_batch=True,
+#         cfg_type="self",
+#         seed=2,
+#     )
+
 stream = StreamDiffusionWrapper(
         model_id_or_path="stabilityai/sd-turbo",
         lora_dict=None,
-        t_index_list=[5,22,32,45],
+        t_index_list=[22, 32, 45],
         frame_buffer_size=1,
         width=512,
         height=512,
-        warmup=1,
-        acceleration="tensorrt",
+        warmup=2,
+        acceleration="xformers",
         mode="img2img",
         use_denoising_batch=True,
         cfg_type="self",

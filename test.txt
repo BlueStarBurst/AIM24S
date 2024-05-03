@@ -1,0 +1,246 @@
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.8589, device='cuda:0', dtype=torch.float16) tensor(0.4138, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+STREAM FPS: 4.148309016498986
+Annotation: [  1.43906248  28.12280273 511.85458374 511.15435791]
+FPS: 2.505798197772303
+(512, 512, 3) 0.8588235294117647
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.8589, device='cuda:0', dtype=torch.float16) tensor(0.3303, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [  1.49550784  31.4333992  511.76974487 511.15585327]
+FPS: 2.512146542551555
+STREAM FPS: 5.39899676705914
+Annotation: [  1.49550784  31.4333992  511.76974487 511.15585327]
+(512, 512, 3) 0.8588235294117647
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.8589, device='cuda:0', dtype=torch.float16) tensor(0.2345, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+FPS: 2.0297411681166513
+Annotation: [  1.49550784  31.4333992  511.76974487 511.15585327]
+STREAM FPS: 3.345601072562233
+(512, 512, 3) 0.8509803921568627
+Annotation: [  1.3679688   30.45307732 512.         511.52441406]
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.8511, device='cuda:0', dtype=torch.float16) tensor(0.4902, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+FPS: 2.4304082787211074
+STREAM FPS: 3.1583226230665282
+Annotation: [  1.3969239   29.67563438 511.81246948 511.5088501 ]
+FPS: 2.0369445065695544
+Annotation: [  1.3969239   29.67563438 511.81246948 511.5088501 ]
+(512, 512, 3) 0.8745098039215686
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.8745, device='cuda:0', dtype=torch.float16) tensor(-0.0176, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+STREAM FPS: 4.976956170350878
+Annotation: [  1.3969239   29.67563438 511.81246948 511.5088501 ]
+FPS: 2.435032113520067
+(512, 512, 3) 0.9529411764705882
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.9531, device='cuda:0', dtype=torch.float16) tensor(0.0581, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [3.99218768e-01 3.45066910e+01 5.11276947e+02 5.11129486e+02]
+STREAM FPS: 3.52844903776372
+FPS: 2.5264450711252144
+Annotation: [  3.15644526  22.72114372 510.50372314 511.01229858]
+(512, 512, 3) 0.9254901960784314
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.9253, device='cuda:0', dtype=torch.float16) tensor(-0.3186, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+FPS: 2.523808575338225
+Annotation: [  3.15644526  22.72114372 510.50372314 511.01229858]
+STREAM FPS: 4.546026104918464
+Annotation: [  3.15644526  22.72114372 510.50372314 511.01229858]
+FPS: 2.4911569843553223
+(512, 512, 3) 0.28627450980392155
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.2864, device='cuda:0', dtype=torch.float16) tensor(-0.3347, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [  3.15644526  22.72114372 510.50372314 511.01229858]
+STREAM FPS: 2.6635499013197377
+FPS: 2.4558393847446496
+(512, 512, 3) 0.00392156862745098
+Annotation: [  1.71372068  23.60141563 512.         510.93804932]
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.0039, device='cuda:0', dtype=torch.float16) tensor(-0.4055, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+FPS: 2.5425351963719303
+STREAM FPS: 2.4669118175086786
+Annotation: [  2.69824219  23.73286247 512.         511.01617432]
+FPS: 2.4807101405876235
+(512, 512, 3) 0.8274509803921568
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.8276, device='cuda:0', dtype=torch.float16) tensor(-0.3052, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [  2.69824219  23.73286247 512.         511.01617432]
+STREAM FPS: 3.97782062686157
+FPS: 2.4894277302786807
+Annotation: [  2.69824219  23.73286247 512.         511.01617432]
+(512, 512, 3) 0.13333333333333333
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.1333, device='cuda:0', dtype=torch.float16) tensor(-0.2544, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [  2.05532241  23.20029259 512.         511.01327515]
+FPS: 2.4652638712071604
+STREAM FPS: 3.220523245561268
+(512, 512, 3) 0.39215686274509803
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.3921, device='cuda:0', dtype=torch.float16) tensor(-0.2917, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [  2.50561523  23.48618126 512.         510.83227539]
+FPS: 2.5464364717295362
+STREAM FPS: 5.2538311278083
+Annotation: [  1.64589846  23.0316906  512.         510.94195557]
+(512, 512, 3) 0.9019607843137255
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.9019, device='cuda:0', dtype=torch.float16) tensor(-0.1445, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+FPS: 2.03661599722885
+STREAM FPS: 4.587559121365354
+Annotation: [  1.3679688   23.64301872 512.         510.77023315]
+(512, 512, 3) 0.39215686274509803
+Annotation: [  1.3679688   23.64301872 512.         510.77023315]
+FPS: 2.450935740673136
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.3921, device='cuda:0', dtype=torch.float16) tensor(0.0530, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [  1.3679688   23.64301872 512.         510.77023315]
+STREAM FPS: 2.4878824017993817
+FPS: 2.0530407006860383
+Annotation: [  2.67895508  23.52202225 510.51959229 511.08291626]
+(512, 512, 3) 0.5333333333333333
+Annotation: [  2.67895508  23.52202225 510.51959229 511.08291626]
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.5332, device='cuda:0', dtype=torch.float16) tensor(-0.4451, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+FPS: 2.4531952005188646
+Annotation: [  1.22451174  22.78095818 512.         511.125     ]
+STREAM FPS: 1.9693264525618492
+Annotation: [  1.22451174  22.78095818 512.         511.125     ]
+FPS: 2.5132063780262044
+Annotation: [  1.22451174  22.78095818 512.         511.125     ]
+(512, 512, 3) 0.0
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0., device='cuda:0', dtype=torch.float16) tensor(0.2534, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [  1.60942388  23.02754021 512.         510.43487549]
+FPS: 2.4918024123582696
+STREAM FPS: 2.003337287467049
+Annotation: [  1.61416018  21.70771599 512.         511.33859253]
+FPS: 2.511955362673779
+(512, 512, 3) 0.0
+Annotation: [  1.61416018  21.70771599 512.         511.33859253]
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0., device='cuda:0', dtype=torch.float16) tensor(0.8145, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+FPS: 2.5101763238467236
+STREAM FPS: 2.532375720856893
+Annotation: [  1.61416018  21.70771599 512.         511.33859253]
+(512, 512, 3) 1.0
+Annotation: [  1.91992188  19.00976562 512.         510.7618103 ]
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(1., device='cuda:0', dtype=torch.float16) tensor(0.2944, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+FPS: 1.9992237334118959
+STREAM FPS: 3.783086520039908
+Annotation: [  1.15693367  21.40019608 512.         510.89706421]
+(512, 512, 3) 1.0
+Annotation: [1.75585940e-01 2.19688969e+01 5.12000000e+02 5.10556610e+02]
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(1., device='cuda:0', dtype=torch.float16) tensor(0.4255, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+FPS: 1.9952180807779802
+STREAM FPS: 3.3458365236721046
+Annotation: [1.75585940e-01 2.19688969e+01 5.12000000e+02 5.10556610e+02]
+(512, 512, 3) 1.0
+FPS: 2.492962827137115
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(1., device='cuda:0', dtype=torch.float16) tensor(-0.4465, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [1.75585940e-01 2.19688969e+01 5.12000000e+02 5.10556610e+02]
+STREAM FPS: 3.3826701067925526
+Annotation: [  0.72543949  22.66269493 512.         511.08114624]
+FPS: 2.4852006178944355
+(512, 512, 3) 1.0
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(1., device='cuda:0', dtype=torch.float16) tensor(0.0033, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [  0.72543949  22.66269493 512.         511.08114624]
+FPS: 2.496013249077943
+Annotation: [  0.79667968  17.72353554 512.         510.98907471]
+STREAM FPS: 1.9714890897222044
+FPS: 2.4899789489958715
+Annotation: [  1.04125977  19.51279259 512.         511.06784058]
+(512, 512, 3) 0.6745098039215687
+Annotation: [  1.04125977  19.51279259 512.         511.06784058]
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.6743, device='cuda:0', dtype=torch.float16) tensor(0.0104, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+STREAM FPS: 4.446859306449857
+Annotation: [  0.74116212  20.95351601 512.         510.57394409]
+FPS: 2.5263741332919842
+Annotation: [  0.60996097  21.59995079 511.80490112 510.58139038]
+(512, 512, 3) 0.0196078431372549
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.0196, device='cuda:0', dtype=torch.float16) tensor(-0.0717, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+FPS: 2.4980868776360654
+Annotation: [  0.60996097  21.59995079 511.80490112 510.58139038]
+STREAM FPS: 4.7746176588833045
+Annotation: [  0.60996097  21.59995079 511.80490112 510.58139038]
+(512, 512, 3) 0.0
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0., device='cuda:0', dtype=torch.float16) tensor(-0.1785, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+FPS: 2.479415680272049
+STREAM FPS: 2.7011005704502913
+Annotation: [  0.60996097  21.59995079 511.80490112 510.58139038]
+FPS: 2.5239366555805525
+(512, 512, 3) 0.0
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0., device='cuda:0', dtype=torch.float16) tensor(0.0771, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [  4.2994628   37.12714767 512.         510.76913452]
+STREAM FPS: 2.650058650170525
+FPS: 2.5002164062310412
+Annotation: [  2.47431636  37.92612457 512.         510.91421509]
+(512, 512, 3) 0.8588235294117647
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.8589, device='cuda:0', dtype=torch.float16) tensor(0.2162, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+FPS: 2.487589076056058
+Annotation: [  1.59248054  27.51259804 509.82070923 512.        ]
+STREAM FPS: 4.8379526548761085
+Annotation: [  1.59248054  27.51259804 509.82070923 512.        ]
+(512, 512, 3) 0.7568627450980392
+FPS: 2.517704377592271
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.7568, device='cuda:0', dtype=torch.float16) tensor(-0.3313, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [  3.38530278  32.8478508  512.         511.07528687]
+STREAM FPS: 9.92888860479029
+Annotation: [  3.38530278  32.8478508  512.         511.07528687]
+FPS: 2.4877579050534955
+(512, 512, 3) 0.7294117647058823
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.7295, device='cuda:0', dtype=torch.float16) tensor(-0.4617, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [  2.95546889  31.05654335 512.         510.70059204]
+Annotation: [  2.95546889  31.05654335 512.         510.70059204]
+STREAM FPS: 2.586360410419809
+FPS: 2.4522355220278396
+Annotation: [  2.15664077  25.96440506 512.         510.64974976]
+(512, 512, 3) 0.07450980392156863
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.0745, device='cuda:0', dtype=torch.float16) tensor(0.2422, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+FPS: 2.5498384409614614
+STREAM FPS: 3.2680201852011876
+Annotation: [  1.94785154  27.84873009 512.         510.8453064 ]
+FPS: 2.5118213155824396
+(512, 512, 3) 0.7450980392156863
+Annotation: [  2.78061533  29.9013195  512.         510.79403687]
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.7451, device='cuda:0', dtype=torch.float16) tensor(-0.1378, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+STREAM FPS: 3.5875372543321755
+Annotation: [  2.28066421  28.25351524 512.         510.81338501]
+FPS: 2.4637425362244127
+Annotation: [  2.28066421  28.25351524 512.         510.81338501]
+(512, 512, 3) 0.7254901960784313
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.7256, device='cuda:0', dtype=torch.float16) tensor(0.1226, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [  3.37114263  26.53359413 512.         510.73770142]
+FPS: 2.4696410544416
+STREAM FPS: 3.1836007174842735
+Annotation: [  3.37114263  26.53359413 512.         510.73770142]
+(512, 512, 3) 0.44313725490196076
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(0.4431, device='cuda:0', dtype=torch.float16) tensor(0.0406, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+Annotation: [  2.87011719  25.29433632 512.         510.76757812]
+FPS: 2.5498301903612193
+STREAM FPS: 3.4383816934727145
+Annotation: [  2.87011719  25.29433632 512.         510.76757812]
+(512, 512, 3) 1.0
+Annotation: [  2.87011719  25.29433632 512.         510.76757812]
+FPS: 2.040293811449365
+torch.Size([1, 4, 64, 64]) torch.Size([4, 64, 64]) torch.Size([1, 4, 64, 64]) tensor(1., device='cuda:0', dtype=torch.float16) tensor(-0.4739, device='cuda:0', dtype=torch.float16)
+torch.Size([3, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64]) torch.Size([1, 4, 64, 64])
+STREAM FPS: 4.64549094874634
+Annotation: [  0.90048832   2.68974614 512.         512.        ]
+Annotation: [0.00000000e+00 4.60791022e-01 5.11519745e+02 5.11880432e+02]
+Exception in thread Thread-7 (receiveText):
+Traceback (most recent call last):
+Exception in thread Thread-6 (send_receive_webcam_frames):
+  File "/opt/conda/lib/python3.10/threading.py", line 1016, in _bootstrap_inner
