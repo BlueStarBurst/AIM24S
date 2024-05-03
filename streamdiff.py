@@ -135,7 +135,7 @@ def streamdiffusion(image, mask=None):
     # blurred_mask_image = Image.fromarray(blurred_mask_image)
     blurred_mask_image = np.array(blurred_mask_image)/255
     
-    print(blurred_mask_image.shape, blurred_mask_image[256][256][0])
+    # print(blurred_mask_image.shape, blurred_mask_image[256][256][0])
     
     process_start = cv2.getTickCount()
     image_tensor = stream.preprocess_image(image)
@@ -148,7 +148,7 @@ def streamdiffusion(image, mask=None):
     # output_image = stream(image_tensor)
     stream_end = cv2.getTickCount()
     stream_fps = cv2.getTickFrequency() / (stream_end - stream_start)
-    print("STREAM FPS:", stream_fps)
+    # print("STREAM FPS:", stream_fps)
     
     mask = (np.array(blurred_mask_image)).astype(np.float16)
     output_arr = np.array(output_image)
