@@ -228,8 +228,7 @@ def receiveText():
     server_socket.close()
 
 def main():
-    webcamThread = threading.Thread(target=send_receive_webcam_frames)
-    textThread = threading.Thread(target=receiveText)
+    
     samThread = threading.Thread(target=sam_thread)
     diffusionThread = threading.Thread(target=diffusion_thread)
 
@@ -239,14 +238,26 @@ def main():
     diffusionThread.daemon = True
 
     # Starting the threads
-    textThread.start()
-    webcamThread.start()
+    
     samThread.start()
     diffusionThread.start()
+    
+    while True:
+        try:
+            webcamThread = threading.Thread(target=send_receive_webcam_frames)
+            textThread = threading.Thread(target=receiveText)
+            
+            textThread.start()
+            webcamThread.start()
+            
+            webcamThread.join()
+            textThread.join()
+        except Exception as e:
+            print("Error in main", e)
+            break
 
     # Waiting for both threads to finish
-    webcamThread.join()
-    textThread.join()
+    
     samThread.join()
     diffusionThread.join()
 
