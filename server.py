@@ -156,7 +156,7 @@ def send_receive_webcam_frames():
             
         end_time = cv2.getTickCount()
         fps = cv2.getTickFrequency() / (end_time - start_time)
-        print("FPS:", fps)
+        # print("FPS:", fps)
 
     stop = True
     connection.close()

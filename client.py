@@ -12,7 +12,7 @@ from time import sleep
 
 
 address = '127.0.0.1'
-ports = [42037, 42061]
+ports = [40195, 40490]
 # ports = [3000,3001]
 
 annotations = []
