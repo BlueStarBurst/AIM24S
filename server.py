@@ -190,7 +190,10 @@ def receiveText():
             print("TempData:", tempData)
             text = tempData.split("<end>")[0]
             # print("Text:", text)
-            nextTempData = "<end>".join(tempData.split("<end>")[1:])
+            
+            
+            # get very last end
+            nextTempData = tempData.split("<end>")[-1]
             
             if "<split>" in text:
                 newTextPrompt = text.split("<split>")[0]
