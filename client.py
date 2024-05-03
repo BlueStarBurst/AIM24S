@@ -277,19 +277,19 @@ def main():
     # yoloThread = threading.Thread(target=yolo_thread)
     webcamThread = threading.Thread(target=sendAndReceiveFrames)
     textThread = threading.Thread(target=sendText)
-    changePromptThread = threading.Thread(target=changePrompt)
+    # changePromptThread = threading.Thread(target=changePrompt)
 
     # Starting the threads
     # yoloThread.start()
     textThread.start()
     webcamThread.start()
-    changePromptThread.start()
+    # changePromptThread.start()
 
     # Waiting for both threads to finish
     webcamThread.join()
     textThread.join()
     # yoloThread.join()
-    changePromptThread.join()
+    # changePromptThread.join()
 
     print("All functions have finished executing")
 

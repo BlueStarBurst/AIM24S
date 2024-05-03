@@ -93,6 +93,7 @@ def send_receive_webcam_frames():
     global image_new
     global sam_new
     global diffusion_new
+    global stop
     webcamSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     webcamServerAddress = (address, 3000)
     webcamSocket.bind(webcamServerAddress)
@@ -156,6 +157,7 @@ def send_receive_webcam_frames():
         fps = cv2.getTickFrequency() / (end_time - start_time)
         # print("FPS:", fps)
 
+    stop = True
     connection.close()
     webcamSocket.close()
 
