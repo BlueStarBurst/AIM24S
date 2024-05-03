@@ -232,8 +232,7 @@ def main():
     samThread = threading.Thread(target=sam_thread)
     diffusionThread = threading.Thread(target=diffusion_thread)
 
-    webcamThread.daemon = True
-    textThread.daemon = True
+    
     samThread.daemon = True
     diffusionThread.daemon = True
 
@@ -246,6 +245,9 @@ def main():
         try:
             webcamThread = threading.Thread(target=send_receive_webcam_frames)
             textThread = threading.Thread(target=receiveText)
+            
+            webcamThread.daemon = True
+            textThread.daemon = True
             
             textThread.start()
             webcamThread.start()
