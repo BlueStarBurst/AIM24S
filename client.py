@@ -169,7 +169,8 @@ def sendAndReceiveFrames():
     webcamSocket.close()
     cv2.destroyAllWindows()
 
-textPrompt = "realistic, batman, black mask, handsome"
+textPrompt = "realistic, batman, black mask, cool"
+# textPrompt = "yellow, golden lantern, old style, realistic, cool, black, yellow, shiny, bright, glowing, light, lantern, lamp, light, light source, light fixture, lighting, light bulb"
 
 def sendText():
     textSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -187,7 +188,7 @@ def sendText():
             
             i = 0
             for clas in classes:
-                if "person" in clas:
+                if "bottle" in clas:
                     break
                 i += 1                    
             
@@ -196,7 +197,7 @@ def sendText():
             
             annotation = cp[i]
 
-            print("Sending annotation", json.dumps(annotation))
+            # print("Sending annotation", json.dumps(annotation))
 
             # Send text to server
             textSocket.sendall((text + "<split>" + json.dumps(annotation) + "<end>").encode())
