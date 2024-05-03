@@ -27,7 +27,7 @@ def yolo_thread():
     global classes
     global annotated_image_bgr
     
-    while not stop:
+    while True:
         # Ensure that frame is not None
         if frame is None:
             continue

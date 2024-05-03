@@ -187,19 +187,19 @@ def receiveText():
         # print("Data:", data)
         
         if "<end>" in tempData:
-            print("TempData:", tempData)
+            # print("TempData:", tempData)
             text = tempData.split("<end>")[0]
             # print("Text:", text)
             
             
             # get very last end
             nextTempData = tempData.split("<end>")[-1]
-            print("NextTempData:", nextTempData)
+            # print("NextTempData:", nextTempData)
             
             if "<split>" in text:
                 newTextPrompt = text.split("<split>")[0]
                 tmp_annotation = text.split("<split>")[1]
-                print("TMP Annotation:", tmp_annotation)
+                # print("TMP Annotation:", tmp_annotation)
                 floatArray = tmp_annotation.replace("[", "").replace("]", "").replace(" ", "").split(",")
                 fake = False
                 if len(floatArray) == 4:
@@ -211,11 +211,11 @@ def receiveText():
                     if not fake:
                         annotation = np.array(floatArray)
                         
-                print("Annotation1:", annotation)
+                # print("Annotation1:", annotation)
             else:
                 newTextPrompt = text
                 annotation = []
-                print("Annotation2:", annotation)
+                # print("Annotation2:", annotation)
                 
             if newTextPrompt != textPrompt:
                 setprompt(textPrompt, "bad quality, fake, not realistic")
