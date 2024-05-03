@@ -187,6 +187,7 @@ def receiveText():
         # print("Data:", data)
         
         if "<end>" in tempData:
+            print("TempData:", tempData)
             text = tempData.split("<end>")[0]
             # print("Text:", text)
             nextTempData = "".join(tempData.split("<end>")[1:])
