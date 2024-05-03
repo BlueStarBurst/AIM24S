@@ -42,7 +42,7 @@ def modify_frame(frame):
     
     if len(annotation) > 0:
         masks, _, _ = predictor.predict(box=annotation)
-        print("Annotation:", annotation)
+        # print("Annotation:", annotation)
     else:
         masks, _, _ = predictor.predict()
         
@@ -221,7 +221,9 @@ def receiveText():
                 # print("Annotation2:", annotation)
                 
             if newTextPrompt != textPrompt:
-                setprompt(textPrompt, "bad quality, fake, not realistic")
+                print("Changing prompt to:", newTextPrompt)
+                setprompt(newTextPrompt, "bad quality, fake, not realistic")
+                textPrompt = newTextPrompt
                 
             tempData = nextTempData
             
