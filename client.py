@@ -25,7 +25,6 @@ annotated_image_bgr = None
 def yolo_thread():
     global annotations
     global classes
-    global frame
     global annotated_image_bgr
     
     while not stop:
@@ -37,7 +36,7 @@ def yolo_thread():
         frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
 
         # Perform object detection on the frame
-        results = model(frame_rgb, verbose=False)
+        results = model(frame_rgb, verbose=True)
         # results = model(frame_rgb)
 
         # Ensure that results is not empty
@@ -70,10 +69,10 @@ def yolo_thread():
             annotated_image_bgr = frame
             
             annotations = []
+            
+    print("Yolo thread has stopped")
 
 def display_frames(original_frame, modified_frame):
-    global annotated_image_bgr
-    global stop
     cv2.imshow("Original Frame", original_frame)
     cv2.imshow("Modified Frame", modified_frame)
     if annotated_image_bgr is not None:
@@ -158,7 +157,6 @@ textPrompt = "realistic, batman, mask"
 
 def sendText():
     global textPrompt
-    global annotations
     textSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     textServerAddress = (address, ports[1])
     textSocket.connect(textServerAddress)
@@ -206,20 +204,20 @@ def main():
     
     webcamThread = threading.Thread(target=sendAndReceiveFrames)
     textThread = threading.Thread(target=sendText)
-    changePromptThread = threading.Thread(target=changePrompt)
     yoloThread = threading.Thread(target=yolo_thread)
+    # changePromptThread = threading.Thread(target=changePrompt)
 
     # Starting the threads
     textThread.start()
     webcamThread.start()
-    changePromptThread.start()
     yoloThread.start()
+    # changePromptThread.start()
 
     # Waiting for both threads to finish
     webcamThread.join()
     textThread.join()
-    changePromptThread.join()
     yoloThread.join()
+    # changePromptThread.join()
 
     print("All functions have finished executing")
 
