@@ -4,6 +4,3 @@
 [submodule "StreamDiffusion"]
 	path = StreamDiffusion
 	url = https://github.com/BlueStarBurst/StreamDiffusion.git
-[submodule "RealStream"]
-	path = RealStream
-	url = https://github.com/cumulo-autumn/StreamDiffusion.git
