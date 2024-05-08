@@ -1,1 +1,0 @@
-#script to run segmentation AND diffusion

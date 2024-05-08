@@ -97,7 +97,7 @@ def sendAndReceiveFrames():
     webcamServerAddress = (address, ports[0])
     webcamSocket.connect(webcamServerAddress)
 
-    cap = cv2.VideoCapture(1)
+    cap = cv2.VideoCapture(0)
 
     while not stop:
         # Capture frame from webcam
@@ -188,7 +188,7 @@ def sendText():
             
             i = 0
             for clas in classes:
-                if "bottle" in clas:
+                if "person" in clas:
                     break
                 i += 1                    
             
@@ -225,9 +225,9 @@ def loop_display():
     global stop
     while not stop:
         if annotated_image_bgr is not None:
-            cv2.imshow('YOLO Object Detection', annotated_image_bgr)
+            cv2.imshow('YOLO Object Detection', cv2.resize(annotated_image_bgr, (700, 700)))
             if modified_frame is not None:
-                cv2.imshow("Modified Frame", modified_frame)
+                cv2.imshow("Modified Frame", cv2.resize(modified_frame, (700, 700)))
         key = cv2.waitKey(1)
         if key == ord('q') or stop:
             cv2.destroyAllWindows()
